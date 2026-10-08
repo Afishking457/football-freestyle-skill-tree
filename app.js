@@ -10,9 +10,13 @@
   };
   const LEVEL_NAMES = ['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Expert'];
   const STORAGE_KEY = 'freestyle-130-progress-v1';
+  const HISTORY_KEY = 'freestyle-130-history-v1';
   const skillById = new Map(SKILL_DATA.map(s => [s.id, s]));
   const allIds = new Set(SKILL_DATA.map(s => s.id));
   let completed = loadProgress();
+  let history = loadHistory();
+  let timelineRange = '30';
+  let chartDays = [];
   let category = 'L';
   let screen = 'map';
   let selectedId = null;
@@ -36,11 +40,44 @@
       return new Set(Array.isArray(ids) ? ids.filter(id => typeof id === 'string' && allIds.has(id)) : []);
     } catch { return new Set(); }
   }
+  function freshHistory(ids = completed) {
+    return {version:1,startedAt:new Date().toISOString(),baseline:[...ids],events:[]};
+  }
+  function validDate(value) {return typeof value === 'string' && Number.isFinite(Date.parse(value));}
+  function validatedHistory(data, expectedIds) {
+    if(!data || typeof data!=='object' || !validDate(data.startedAt) || !Array.isArray(data.baseline) || !Array.isArray(data.events) || data.events.length > 25000)return null;
+    const baseline=[...new Set(data.baseline.filter(id=>typeof id==='string'&&allIds.has(id)))];
+    if(baseline.length!==data.baseline.length)return null;
+    const events=[];
+    for(const e of data.events){
+      if(!e || !validDate(e.at) || !['master','unmaster','reset'].includes(e.action) || (e.action!=='reset' && !allIds.has(e.id)))return null;
+      events.push({at:e.at,action:e.action,...(e.action==='reset'?{}:{id:e.id})});
+    }
+    events.sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
+    const reconstructed=new Set(baseline);
+    for(const e of events){if(e.action==='reset')reconstructed.clear();else if(e.action==='master')reconstructed.add(e.id);else reconstructed.delete(e.id);}
+    if(expectedIds && (reconstructed.size!==expectedIds.size || [...reconstructed].some(id=>!expectedIds.has(id))))return null;
+    return {version:1,startedAt:data.startedAt,baseline,events};
+  }
+  function loadHistory() {
+    try {
+      const raw=localStorage.getItem(HISTORY_KEY);
+      if(raw){const valid=validatedHistory(JSON.parse(raw),completed);if(valid)return valid;}
+    } catch {}
+    const initial=freshHistory();
+    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(initial));}catch{}
+    return initial;
+  }
   function saveProgress() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({version:1,completed:[...completed],savedAt:new Date().toISOString()}));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       $('saved-indicator').textContent = '● Saved on this device';
     } catch { $('saved-indicator').textContent = '● Saving unavailable'; }
+  }
+  function recordChange(action,id) {
+    history.events.push({at:new Date().toISOString(),action,...(id?{id}:{})});
+    saveProgress();
   }
   function showToast(message) {
     const el = $('toast'); el.textContent = message; el.classList.add('show');
@@ -51,12 +88,14 @@
     if (!skill) return;
     const previousReady = new Set(SKILL_DATA.filter(s => status(s) === 'ready').map(s => s.id));
     const shouldComplete = force === undefined ? !completed.has(id) : Boolean(force);
+    if(shouldComplete===completed.has(id))return;
     if (shouldComplete) completed.add(id); else completed.delete(id);
-    saveProgress();
+    recordChange(shouldComplete?'master':'unmaster',id);
     renderSummary();
     renderMap(false);
     renderLibrary();
     renderProgress();
+    renderTimeline();
     if (selectedId) renderDrawer(selectedId);
     const newlyReady = SKILL_DATA.filter(s => status(s) === 'ready' && !previousReady.has(s.id));
     showToast(shouldComplete ? `Mastered: ${skill.name}${newlyReady.length ? ` · ${newlyReady.length} new skill${newlyReady.length===1?'':'s'} ready` : ''}` : `Unmarked: ${skill.name}`);
@@ -89,17 +128,31 @@
     $('discipline-stats').addEventListener('click',event=>{
       const button=event.target.closest('[data-category]');if(button){category=button.dataset.category;navigate('map');renderMap(true);}
     });
+    document.querySelectorAll('[data-range]').forEach(button=>button.addEventListener('click',()=>{timelineRange=button.dataset.range;renderTimeline();}));
+    $('timeline-chart').addEventListener('pointermove', event=>{
+      if(!chartDays.length)return;
+      const rect=event.currentTarget.getBoundingClientRect();
+      const x=(event.clientX-rect.left)/rect.width*760;
+      const chosen=chartDays.reduce((best,item)=>Math.abs(item.x-x)<Math.abs(best.x-x)?item:best,chartDays[0]);
+      inspectDay(chosen);
+    });
+    $('timeline-chart').addEventListener('click',event=>{
+      if(!chartDays.length)return;
+      const rect=event.currentTarget.getBoundingClientRect();
+      const x=(event.clientX-rect.left)/rect.width*760;
+      inspectDay(chartDays.reduce((best,item)=>Math.abs(item.x-x)<Math.abs(best.x-x)?item:best,chartDays[0]));
+    });
     $('export-progress').addEventListener('click',exportProgress);
     $('import-file').addEventListener('change',importProgress);
     $('clear-progress').addEventListener('click',()=>{
       if(!completed.size){showToast('No skills marked yet.');return;}
       if(window.confirm('Reset all marked skills? This cannot be undone unless you exported a backup.')){
-        completed.clear();saveProgress();renderAll();showToast('Progress reset.');
+        completed.clear();recordChange('reset');renderAll();showToast('Progress reset. History has been kept.');
       }
     });
   }
   function navigate(to) {
-    if(!['map','library','progress'].includes(to))return;
+    if(!['map','library','progress','timeline'].includes(to))return;
     screen=to;
     document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===`screen-${to}`));
     document.querySelectorAll('[data-screen]').forEach(el=>{
@@ -203,6 +256,101 @@
     const ready=SKILL_DATA.filter(s=>status(s)==='ready').sort((a,b)=>a.level-b.level||a.id.localeCompare(b.id)).slice(0,8);
     $('next-skills').innerHTML=ready.length?ready.map(s=>`<button class="next-item" data-open="${s.id}"><span class="next-icon" style="color:${CATEGORIES[s.category].tint}">${CATEGORIES[s.category].glyph}</span><span><strong>${safeText(s.name)}</strong><small>${CATEGORIES[s.category].name} · Level ${s.level}</small></span><span class="next-arrow">↗</span></button>`).join(''):`<div class="empty-state">All challenges mastered! Incredible work.</div>`;
   }
+  function dayStart(date){return new Date(date.getFullYear(),date.getMonth(),date.getDate());}
+  function dateKey(date){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
+  function displayDate(date){return date.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}
+  function timeSeries(){
+    const now=dayStart(new Date()),first=dayStart(new Date(history.startedAt));
+    const state=new Set(history.baseline),events=[...history.events].sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
+    const byDay=new Map();let i=0;
+    for(let d=new Date(first);d<=now;d.setDate(d.getDate()+1)){
+      const key=dateKey(d),counts={date:new Date(d),key,marked:0,changed:0};
+      while(i<events.length && dayStart(new Date(events[i].at))<=d){
+        const e=events[i++];
+        if(e.action==='reset')state.clear();
+        else if(e.action==='master'){state.add(e.id);if(dateKey(new Date(e.at))===key)counts.marked++;}
+        else state.delete(e.id);
+        if(dateKey(new Date(e.at))===key)counts.changed++;
+      }
+      counts.total=state.size;byDay.set(key,counts);
+    }
+    return {now,first,byDay,events};
+  }
+  function inspectDay(point){
+    if(!point)return;
+    $('timeline-insight').textContent=`${displayDate(point.date)}  ·  ${point.total} / 130 mastered  ·  +${point.marked} skill checkmark${point.marked===1?'':'s'}`;
+    const cursor=$('timeline-cursor'),dot=$('timeline-active-dot');
+    if(cursor){cursor.setAttribute('x1',point.x);cursor.setAttribute('x2',point.x);}
+    if(dot){dot.setAttribute('cx',point.x);dot.setAttribute('cy',point.y);}
+  }
+  function renderTimeline(){
+    const {now,first,byDay,events}=timeSeries();
+    const updated=new Set(events.map(e=>dateKey(new Date(e.at))));
+    const sortedDates=[...updated].sort();let longest=0,streak=0,prior=null;
+    for(const key of sortedDates){
+      const d=dayStart(new Date(`${key}T12:00:00`));
+      streak=prior && Math.round((d-prior)/86400000)===1?streak+1:1;
+      longest=Math.max(longest,streak);prior=d;
+    }
+    const monday=dayStart(new Date());monday.setDate(monday.getDate()-(monday.getDay()+6)%7);
+    const thisWeek=events.filter(e=>e.action==='master' && new Date(e.at)>=monday).length;
+    $('timeline-total').innerHTML=`${countDone()}<span> / 130</span>`;
+    $('timeline-week').textContent=thisWeek;
+    $('timeline-days').textContent=updated.size;
+    $('timeline-streak').innerHTML=`${longest}<span> day${longest===1?'':'s'}</span>`;
+    document.querySelectorAll('.time-range').forEach(btn=>{const active=btn.dataset.range===timelineRange;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});
+    let beginning=dayStart(now);
+    if(timelineRange==='all')beginning=dayStart(first);
+    else beginning.setDate(beginning.getDate()-Number(timelineRange)+1);
+    // The horizontal axis always spans the chosen period, but dates before the
+    // tracking start are intentionally blank rather than invented as zero.
+    const displayDays=[],valid=[];
+    for(let d=new Date(beginning);d<=now;d.setDate(d.getDate()+1)){
+      const entry=byDay.get(dateKey(d));
+      displayDays.push({date:new Date(d),entry});
+    }
+    const maxObserved=Math.max(1,...displayDays.filter(d=>d.entry).map(d=>d.entry.total));
+    const topValue=Math.min(130,Math.max(5,Math.ceil(maxObserved/5)*5));
+    const left=46,right=737,top=25,bottom=239,height=bottom-top,width=right-left;
+    const plotX=i=>left+(displayDays.length===1?width:i/(displayDays.length-1)*width);
+    const plotY=v=>bottom-v/topValue*height;
+    const ticks=[0,Math.round(topValue/2),topValue];
+    let svg=ticks.map(t=>`<line x1="${left}" y1="${plotY(t)}" x2="${right}" y2="${plotY(t)}" class="chart-grid"/><text x="${left-11}" y="${plotY(t)+4}" text-anchor="end" class="chart-label">${t}</text>`).join('');
+    const points=displayDays.map((d,i)=>d.entry?{...d.entry,x:plotX(i),y:plotY(d.entry.total)}:null).filter(Boolean);
+    chartDays=points;
+    if(points.length){
+      const line=points.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
+      const area=`${line} L ${points.at(-1).x.toFixed(2)} ${bottom} L ${points[0].x.toFixed(2)} ${bottom} Z`;
+      svg+=`<path d="${area}" class="chart-area"/><path d="${line}" class="chart-line"/>`;
+      svg+=`<line id="timeline-cursor" x1="${points.at(-1).x}" y1="${top}" x2="${points.at(-1).x}" y2="${bottom}" class="chart-cursor"/><circle id="timeline-active-dot" cx="${points.at(-1).x}" cy="${points.at(-1).y}" r="6" class="chart-dot"/>`;
+    }
+    const indices=[0,Math.floor((displayDays.length-1)/2),displayDays.length-1];
+    svg+=[...new Set(indices)].map(i=>`<text x="${plotX(i)}" y="${bottom+29}" text-anchor="${i===0?'start':i===displayDays.length-1?'end':'middle'}" class="chart-label">${displayDays[i].date.toLocaleDateString(undefined,{day:'numeric',month:'short'})}</text>`).join('');
+    $('timeline-chart').innerHTML=svg;
+    $('timeline-chart').setAttribute('aria-label',`Progress from ${displayDate(beginning)} to ${displayDate(now)}, ending at ${countDone()} mastered skills. ${points.length} days of tracked history shown.`);
+    inspectDay(points.at(-1));
+    const squares=[];
+    for(let i=34;i>=0;i--){
+      const day=new Date(now);day.setDate(day.getDate()-i);
+      const entry=byDay.get(dateKey(day));const number=entry?entry.marked:0;
+      const intensity=number===0?0:number===1?1:number<=3?2:number<=6?3:4;
+      squares.push(`<div class="heat-cell heat-${intensity} ${dateKey(day)===dateKey(now)?'heat-today':''}" title="${displayDate(day)} · ${number} skill${number===1?'':'s'} marked" aria-label="${displayDate(day)}, ${number} marked" tabindex="0"></div>`);
+    }
+    $('timeline-heatmap').innerHTML=squares.join('');
+    const thresholds=[1,5,10,20,30,50,75,100,130],total=countDone();
+    const next=thresholds.find(t=>t>total),previous=[0,...thresholds].filter(t=>t<=total).at(-1);
+    const fraction=next?(total-previous)/(next-previous)*100:100;
+    $('timeline-milestone').innerHTML=next?`<div class="milestone-big">${next}<span> skills</span></div><p class="milestone-copy">${next-total} more mastered skill${next-total===1?'':'s'} to your next milestone.</p><div class="milestone-track"><div style="width:${fraction}%"></div></div><div class="milestone-foot"><span>${total} mastered</span><span>Goal: ${next}</span></div>`:`<div class="milestone-big">130 <span> / 130</span></div><p class="milestone-copy">Every challenge mastered. Keep inventing your own combinations!</p>`;
+    const recent=events.slice(-9).reverse();
+    const messages=recent.map(e=>{
+      const skill=skillById.get(e.id);
+      const label=e.action==='master'?'Skill mastered':e.action==='unmaster'?'Skill unmarked':'Progress reset';
+      const name=skill?skill.name:'All skills';
+      return `<div class="timeline-event"><span class="event-symbol ${e.action}">${e.action==='master'?'✓':e.action==='unmaster'?'↶':'↺'}</span><div><strong>${label}</strong><small>${safeText(name)}</small></div><time datetime="${e.at}">${displayDate(new Date(e.at))}</time></div>`;
+    });
+    if(!recent.length){messages.push(`<div class="timeline-event"><span class="event-symbol master">✳</span><div><strong>Your tracking starts here</strong><small>${history.baseline.length?`${history.baseline.length} skills already mastered when this update was installed`:'Master your first skill to start building a history'}</small></div><time>${displayDate(new Date(history.startedAt))}</time></div>`);}
+    $('timeline-events').innerHTML=messages.join('');
+  }
   function renderDrawer(id){
     const s=skillById.get(id);if(!s)return;
     const c=CATEGORIES[s.category],st=status(s),downstream=dependencies(s.id),prereqs=s.prereqs.map(x=>skillById.get(x)).filter(Boolean);
@@ -246,7 +394,7 @@
     selectedId=null;highlightEdges();
   }
   function exportProgress(){
-    const data={app:'Freestyle 130',version:1,exportedAt:new Date().toISOString(),completed:[...completed]};
+    const data={app:'Freestyle 130',version:2,exportedAt:new Date().toISOString(),completed:[...completed],history};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');
     a.href=url;a.download='freestyle-130-progress.json';document.body.appendChild(a);a.click();a.remove();
@@ -261,11 +409,13 @@
       if(!Array.isArray(data.completed))throw Error('Invalid progress backup.');
       const ids=data.completed.filter(x=>typeof x==='string'&&allIds.has(x));
       if(!window.confirm(`Import ${ids.length} mastered skills? This will replace progress on this device.`))return;
-      completed=new Set(ids);saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills.`);
+      completed=new Set(ids);
+      history=validatedHistory(data.history,completed)||freshHistory(completed);
+      saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills${data.history?' and compatible history':''}.`);
     }catch(err){showToast(`Could not import: ${err.message}`);}
     finally{event.target.value='';}
   }
-  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();}
+  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();renderTimeline();}
   function init(){
     initNavigation();renderAll();
     if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){

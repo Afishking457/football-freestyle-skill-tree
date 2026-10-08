@@ -15,7 +15,63 @@
 @media(max-width:380px){.hero-numbers{gap:18px}.library-grid{grid-template-columns:1fr}.library-card{min-height:140px}.map-toolbar{gap:6px}.map-context div span{max-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 
-  </style>
+/* Progress-over-time dashboard (v2) */
+.timeline-hero{background:radial-gradient(ellipse at 88% 12%,rgba(194,246,107,.13),transparent 44%),linear-gradient(115deg,#121e30,#0b1423)}
+.timeline-content{padding:29px 36px 52px;display:flex;flex-direction:column;gap:19px;min-width:0}
+.timeline-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.timeline-stat{background:#152237;border:1px solid #303d53;border-radius:13px;padding:19px 17px;min-width:0;display:flex;flex-direction:column;gap:9px}
+.timeline-stat>span{font-size:9px;font-weight:850;letter-spacing:.13em;color:#93a6bd}
+.timeline-stat strong{font-size:clamp(28px,3vw,39px);letter-spacing:-.06em;line-height:1.15;font-variant-numeric:tabular-nums}
+.timeline-stat strong span{font-size:13px;color:#8e9eb2;letter-spacing:0;font-weight:700}
+.timeline-stat small{color:#8b9ab0;font-size:10px}
+.timeline-panel{background:#111d30;border:1px solid #303d53;border-radius:14px;padding:24px;min-width:0}
+.timeline-panel h2{font-size:23px;margin:6px 0 9px}
+.timeline-panel-head{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.timeline-range{display:flex;align-items:center;padding:3px;background:#0b1424;border:1px solid #2c3c52;border-radius:9px;flex:none}
+.time-range{background:transparent;border:0;border-radius:6px;color:#9aabc0;font-size:11px;font-weight:800;padding:9px 13px}
+.time-range.active{background:#bff17b;color:#10200d}
+.timeline-insight{margin-top:16px;background:#1b2e2a;border:1px solid #335e43;border-radius:9px;padding:12px 14px;color:#c2f66b;font-size:12px;font-weight:750;font-variant-numeric:tabular-nums}
+.timeline-chart-wrap{width:100%;padding:8px 2px 0;position:relative;touch-action:pan-y}
+.timeline-chart{display:block;width:100%;height:auto;max-height:340px;overflow:visible;cursor:crosshair;user-select:none}
+.chart-grid{stroke:#354155;stroke-width:1;stroke-dasharray:4 5}
+.chart-label{fill:#869cb4;font-size:12px;font-weight:650;font-family:inherit}
+.chart-area{fill:rgba(194,246,107,.10)}
+.chart-line{fill:none;stroke:#c2f66b;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.chart-cursor{stroke:#e3f6c3;stroke-width:1.2;stroke-dasharray:4 4;opacity:.8}
+.chart-dot{fill:#d5ff99;stroke:#173721;stroke-width:3}
+.timeline-note{font-size:11px;line-height:1.6;color:#9aaac0;margin:12px 0 0}
+.timeline-two-col{display:grid;grid-template-columns:1.08fr .92fr;gap:19px}
+.timeline-heatmap{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:19px}
+.heat-cell{height:32px;border-radius:6px;background:#1c2a3e;border:1px solid #2d3b4e;min-width:0}
+.heat-cell.heat-1{background:#315c45;border-color:#477553}.heat-cell.heat-2{background:#568851;border-color:#649c5b}.heat-cell.heat-3{background:#87bf65;border-color:#95ce72}.heat-cell.heat-4{background:#c2f66b;border-color:#c2f66b}
+.heat-cell.heat-today{box-shadow:0 0 0 1px #e5fbd0}
+.heat-cell:focus-visible{outline:2px solid white;outline-offset:2px}
+.heatmap-key{display:flex;justify-content:flex-end;align-items:center;gap:5px;margin-top:15px}
+.heatmap-key span{font-size:9px;letter-spacing:.11em;color:#94a6ba;font-weight:800;margin:0 4px}
+.heatmap-key i{display:block;height:11px;width:11px;border-radius:3px;background:#1c2a3e}
+.heatmap-key i:nth-of-type(2){background:#315c45}.heatmap-key i:nth-of-type(3){background:#87bf65}.heatmap-key i:nth-of-type(4){background:#c2f66b}
+.milestone-big{color:#c2f66b;font-size:clamp(48px,5vw,65px);letter-spacing:-.08em;font-weight:850;margin-top:22px;line-height:1.15}
+.milestone-big span{font-size:16px;color:#dbe5ef;letter-spacing:0}
+.milestone-copy{font-size:12px;line-height:1.65;color:#a6b6c9;margin:14px 0 20px}
+.milestone-track{height:8px;background:#28384b;border-radius:9px;overflow:hidden}
+.milestone-track>div{height:100%;background:#c2f66b;border-radius:9px;transition:width .2s}
+.milestone-foot{display:flex;justify-content:space-between;color:#8e9db3;font-size:10px;margin-top:10px}
+.timeline-recent{margin-bottom:0}
+.timeline-events{margin-top:12px}
+.timeline-event{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #2b3a4f}
+.timeline-event:last-child{border-bottom:0}
+.event-symbol{display:grid;place-items:center;width:32px;height:32px;flex:none;background:#234033;color:#c2f66b;border-radius:9px;font-weight:850;font-size:18px}
+.event-symbol.unmaster{background:#40302a;color:#e7ba87}.event-symbol.reset{background:#403140;color:#c5b6e4}
+.timeline-event>div{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.timeline-event strong{font-size:12px}.timeline-event small{font-size:11px;color:#8fa3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timeline-event time{color:#8a9cb2;font-size:10px;white-space:nowrap}
+.timeline-privacy{color:#899caf;font-size:11px;line-height:1.7;margin:0 0 8px}
+@media(max-width:1150px){.timeline-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:870px){.timeline-two-col{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.timeline-content{padding:19px 14px 100px;gap:12px}.timeline-cards{gap:9px}.timeline-stat{padding:15px 13px}.timeline-stat strong{font-size:31px}.timeline-stat strong span{font-size:11px}.timeline-stat>span{font-size:8px;letter-spacing:.1em}.timeline-panel{padding:17px 13px}.timeline-panel h2{font-size:20px}.timeline-panel-head{align-items:flex-start;flex-direction:column;gap:13px}.timeline-range{align-self:flex-start}.time-range{font-size:10px;padding:8px 12px}.timeline-insight{font-size:11px;line-height:1.5}.timeline-chart-wrap{padding-top:7px}.timeline-note{font-size:10px}.heat-cell{height:30px}.bottom-nav button{min-width:0;font-size:9px}.bottom-nav button span{font-size:22px}.timeline-event time{font-size:9px}}
+@media(max-width:380px){.timeline-stat strong{font-size:27px}.timeline-stat strong span{font-size:10px}.heat-cell{height:26px}.timeline-event{gap:8px}}
+
+</style>
   <title>Freestyle 130 · Football Skill Tree</title>
 </head>
 <body>
@@ -27,6 +83,7 @@
         <button class="nav-item active" data-screen="map"><span class="nav-symbol">⬡</span> Skill map</button>
         <button class="nav-item" data-screen="library"><span class="nav-symbol">▦</span> Skill library</button>
         <button class="nav-item" data-screen="progress"><span class="nav-symbol">◉</span> My progress</button>
+        <button class="nav-item" data-screen="timeline"><span class="nav-symbol">↗</span> Progress over time</button>
       </nav>
       <div class="side-section-label spaced">DISCIPLINES</div>
       <nav class="side-branches" id="sidebar-branches" aria-label="Skill disciplines"></nav>
@@ -74,12 +131,36 @@
           <div class="results-title"><h2>What to practise next</h2><span>UNLOCKED CHALLENGES</span></div><div class="next-skills" id="next-skills"></div>
           <div class="data-box"><div><h3>Your data stays yours</h3><p>Progress is stored in your browser, on this phone or computer. Export a backup to transfer it to another device or browser.</p></div><div class="data-actions"><button class="action-btn" id="export-progress">↓ Export progress</button><label for="import-file" class="action-btn secondary-btn">↑ Import progress</label><input type="file" accept="application/json,.json" id="import-file" hidden /><button class="action-btn danger-btn" id="clear-progress">Reset all skills</button></div></div>
         </section>
+
+        <section class="screen" id="screen-timeline" aria-labelledby="timeline-heading">
+          <div class="sub-hero timeline-hero"><div class="eyebrow"><span class="eyebrow-line"></span> SMALL STEPS. BIG MOMENTUM.</div><h1 id="timeline-heading">Your <em>journey.</em></h1><p>A picture of the work you've put in. Every new mastered skill moves the line. Track what changes, celebrate your wins, and keep going.</p></div>
+          <div class="timeline-content">
+            <div class="timeline-cards" aria-label="Your progress statistics">
+              <div class="timeline-stat"><span>SKILLS MASTERED</span><strong id="timeline-total">0<span> / 130</span></strong><small>Your current total</small></div>
+              <div class="timeline-stat"><span>MARKED THIS WEEK</span><strong id="timeline-week">0</strong><small>New mastery checkmarks</small></div>
+              <div class="timeline-stat"><span>ACTIVE DAYS</span><strong id="timeline-days">0</strong><small>Days with skill updates</small></div>
+              <div class="timeline-stat"><span>LONGEST STREAK</span><strong id="timeline-streak">0<span> days</span></strong><small>Consecutive update days</small></div>
+            </div>
+            <section class="timeline-panel timeline-graph-panel" aria-labelledby="timeline-chart-heading">
+              <div class="timeline-panel-head"><div><div class="eyebrow mini">THE BIG PICTURE</div><h2 id="timeline-chart-heading">Skills mastered over time</h2></div><div class="timeline-range" role="group" aria-label="Graph time range"><button class="time-range active" data-range="30" aria-pressed="true">30D</button><button class="time-range" data-range="90" aria-pressed="false">90D</button><button class="time-range" data-range="all" aria-pressed="false">All</button></div></div>
+              <div class="timeline-insight" id="timeline-insight" aria-live="polite">Tap the graph to explore a day</div>
+              <div class="timeline-chart-wrap" id="timeline-chart-wrap"><svg id="timeline-chart" class="timeline-chart" viewBox="0 0 760 286" role="img" aria-labelledby="timeline-chart-heading timeline-chart-description"></svg></div>
+              <p class="timeline-note" id="timeline-chart-description">The line shows how many skills were marked as mastered by the end of each day. It can go down if you undo a skill.</p>
+            </section>
+            <div class="timeline-two-col">
+              <section class="timeline-panel" aria-labelledby="timeline-activity-heading"><div class="eyebrow mini">YOUR CONSISTENCY</div><h2 id="timeline-activity-heading">Activity calendar</h2><p class="timeline-note">Each square is one day. Brighter squares mean you marked more skills as mastered. This tracks app activity, not training sessions.</p><div id="timeline-heatmap" class="timeline-heatmap" role="img" aria-label="Activity across the last 35 days"></div><div class="heatmap-key"><span>LESS</span><i></i><i></i><i></i><i></i><span>MORE</span></div></section>
+              <section class="timeline-panel" aria-labelledby="timeline-milestone-heading"><div class="eyebrow mini">NEXT BIG WIN</div><h2 id="timeline-milestone-heading">Next milestone</h2><div id="timeline-milestone"></div></section>
+            </div>
+            <section class="timeline-panel timeline-recent" aria-labelledby="timeline-recent-heading"><div class="eyebrow mini">YOUR STORY</div><h2 id="timeline-recent-heading">Recent milestones</h2><div id="timeline-events" class="timeline-events"></div></section>
+            <p class="timeline-privacy">Your history stays on this device and is included in new progress exports. If you already had mastered skills before this update, they become your starting point today—we won't invent dates for your earlier wins.</p>
+          </div>
+        </section>
       </main>
       <footer class="app-footer">BUILT FOR THE LOVE OF FOOTBALL <span>✳</span> TRAIN. CREATE. REPEAT.</footer>
     </div>
   </div>
 
-  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="progress"><span>◉</span>Progress</button></nav>
+  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="timeline"><span>↗</span>Journey</button><button data-screen="progress"><span>◉</span>Progress</button></nav>
   <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
   <aside class="skill-drawer" id="skill-drawer" aria-label="Skill details" role="dialog" aria-modal="true" aria-hidden="true"><div class="drawer-grab"></div><button id="drawer-close" class="drawer-close" aria-label="Close skill details">✕</button><div id="drawer-content"></div></aside>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -223,8 +304,8 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
   return {id,name,level:Number(level),prereqs:prereqs?prereqs.split(','):[],category:id[0]};
 });
 
-  </script>
-  <script>
+</script>
+<script>
 (() => {
   'use strict';
   const CATEGORIES = {
@@ -237,9 +318,13 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
   };
   const LEVEL_NAMES = ['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Expert'];
   const STORAGE_KEY = 'freestyle-130-progress-v1';
+  const HISTORY_KEY = 'freestyle-130-history-v1';
   const skillById = new Map(SKILL_DATA.map(s => [s.id, s]));
   const allIds = new Set(SKILL_DATA.map(s => s.id));
   let completed = loadProgress();
+  let history = loadHistory();
+  let timelineRange = '30';
+  let chartDays = [];
   let category = 'L';
   let screen = 'map';
   let selectedId = null;
@@ -263,11 +348,44 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
       return new Set(Array.isArray(ids) ? ids.filter(id => typeof id === 'string' && allIds.has(id)) : []);
     } catch { return new Set(); }
   }
+  function freshHistory(ids = completed) {
+    return {version:1,startedAt:new Date().toISOString(),baseline:[...ids],events:[]};
+  }
+  function validDate(value) {return typeof value === 'string' && Number.isFinite(Date.parse(value));}
+  function validatedHistory(data, expectedIds) {
+    if(!data || typeof data!=='object' || !validDate(data.startedAt) || !Array.isArray(data.baseline) || !Array.isArray(data.events) || data.events.length > 25000)return null;
+    const baseline=[...new Set(data.baseline.filter(id=>typeof id==='string'&&allIds.has(id)))];
+    if(baseline.length!==data.baseline.length)return null;
+    const events=[];
+    for(const e of data.events){
+      if(!e || !validDate(e.at) || !['master','unmaster','reset'].includes(e.action) || (e.action!=='reset' && !allIds.has(e.id)))return null;
+      events.push({at:e.at,action:e.action,...(e.action==='reset'?{}:{id:e.id})});
+    }
+    events.sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
+    const reconstructed=new Set(baseline);
+    for(const e of events){if(e.action==='reset')reconstructed.clear();else if(e.action==='master')reconstructed.add(e.id);else reconstructed.delete(e.id);}
+    if(expectedIds && (reconstructed.size!==expectedIds.size || [...reconstructed].some(id=>!expectedIds.has(id))))return null;
+    return {version:1,startedAt:data.startedAt,baseline,events};
+  }
+  function loadHistory() {
+    try {
+      const raw=localStorage.getItem(HISTORY_KEY);
+      if(raw){const valid=validatedHistory(JSON.parse(raw),completed);if(valid)return valid;}
+    } catch {}
+    const initial=freshHistory();
+    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(initial));}catch{}
+    return initial;
+  }
   function saveProgress() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({version:1,completed:[...completed],savedAt:new Date().toISOString()}));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       $('saved-indicator').textContent = '● Saved on this device';
     } catch { $('saved-indicator').textContent = '● Saving unavailable'; }
+  }
+  function recordChange(action,id) {
+    history.events.push({at:new Date().toISOString(),action,...(id?{id}:{})});
+    saveProgress();
   }
   function showToast(message) {
     const el = $('toast'); el.textContent = message; el.classList.add('show');
@@ -278,12 +396,14 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
     if (!skill) return;
     const previousReady = new Set(SKILL_DATA.filter(s => status(s) === 'ready').map(s => s.id));
     const shouldComplete = force === undefined ? !completed.has(id) : Boolean(force);
+    if(shouldComplete===completed.has(id))return;
     if (shouldComplete) completed.add(id); else completed.delete(id);
-    saveProgress();
+    recordChange(shouldComplete?'master':'unmaster',id);
     renderSummary();
     renderMap(false);
     renderLibrary();
     renderProgress();
+    renderTimeline();
     if (selectedId) renderDrawer(selectedId);
     const newlyReady = SKILL_DATA.filter(s => status(s) === 'ready' && !previousReady.has(s.id));
     showToast(shouldComplete ? `Mastered: ${skill.name}${newlyReady.length ? ` · ${newlyReady.length} new skill${newlyReady.length===1?'':'s'} ready` : ''}` : `Unmarked: ${skill.name}`);
@@ -316,17 +436,31 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
     $('discipline-stats').addEventListener('click',event=>{
       const button=event.target.closest('[data-category]');if(button){category=button.dataset.category;navigate('map');renderMap(true);}
     });
+    document.querySelectorAll('[data-range]').forEach(button=>button.addEventListener('click',()=>{timelineRange=button.dataset.range;renderTimeline();}));
+    $('timeline-chart').addEventListener('pointermove', event=>{
+      if(!chartDays.length)return;
+      const rect=event.currentTarget.getBoundingClientRect();
+      const x=(event.clientX-rect.left)/rect.width*760;
+      const chosen=chartDays.reduce((best,item)=>Math.abs(item.x-x)<Math.abs(best.x-x)?item:best,chartDays[0]);
+      inspectDay(chosen);
+    });
+    $('timeline-chart').addEventListener('click',event=>{
+      if(!chartDays.length)return;
+      const rect=event.currentTarget.getBoundingClientRect();
+      const x=(event.clientX-rect.left)/rect.width*760;
+      inspectDay(chartDays.reduce((best,item)=>Math.abs(item.x-x)<Math.abs(best.x-x)?item:best,chartDays[0]));
+    });
     $('export-progress').addEventListener('click',exportProgress);
     $('import-file').addEventListener('change',importProgress);
     $('clear-progress').addEventListener('click',()=>{
       if(!completed.size){showToast('No skills marked yet.');return;}
       if(window.confirm('Reset all marked skills? This cannot be undone unless you exported a backup.')){
-        completed.clear();saveProgress();renderAll();showToast('Progress reset.');
+        completed.clear();recordChange('reset');renderAll();showToast('Progress reset. History has been kept.');
       }
     });
   }
   function navigate(to) {
-    if(!['map','library','progress'].includes(to))return;
+    if(!['map','library','progress','timeline'].includes(to))return;
     screen=to;
     document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===`screen-${to}`));
     document.querySelectorAll('[data-screen]').forEach(el=>{
@@ -430,6 +564,101 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
     const ready=SKILL_DATA.filter(s=>status(s)==='ready').sort((a,b)=>a.level-b.level||a.id.localeCompare(b.id)).slice(0,8);
     $('next-skills').innerHTML=ready.length?ready.map(s=>`<button class="next-item" data-open="${s.id}"><span class="next-icon" style="color:${CATEGORIES[s.category].tint}">${CATEGORIES[s.category].glyph}</span><span><strong>${safeText(s.name)}</strong><small>${CATEGORIES[s.category].name} · Level ${s.level}</small></span><span class="next-arrow">↗</span></button>`).join(''):`<div class="empty-state">All challenges mastered! Incredible work.</div>`;
   }
+  function dayStart(date){return new Date(date.getFullYear(),date.getMonth(),date.getDate());}
+  function dateKey(date){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');return `${y}-${m}-${d}`;}
+  function displayDate(date){return date.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}
+  function timeSeries(){
+    const now=dayStart(new Date()),first=dayStart(new Date(history.startedAt));
+    const state=new Set(history.baseline),events=[...history.events].sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
+    const byDay=new Map();let i=0;
+    for(let d=new Date(first);d<=now;d.setDate(d.getDate()+1)){
+      const key=dateKey(d),counts={date:new Date(d),key,marked:0,changed:0};
+      while(i<events.length && dayStart(new Date(events[i].at))<=d){
+        const e=events[i++];
+        if(e.action==='reset')state.clear();
+        else if(e.action==='master'){state.add(e.id);if(dateKey(new Date(e.at))===key)counts.marked++;}
+        else state.delete(e.id);
+        if(dateKey(new Date(e.at))===key)counts.changed++;
+      }
+      counts.total=state.size;byDay.set(key,counts);
+    }
+    return {now,first,byDay,events};
+  }
+  function inspectDay(point){
+    if(!point)return;
+    $('timeline-insight').textContent=`${displayDate(point.date)}  ·  ${point.total} / 130 mastered  ·  +${point.marked} skill checkmark${point.marked===1?'':'s'}`;
+    const cursor=$('timeline-cursor'),dot=$('timeline-active-dot');
+    if(cursor){cursor.setAttribute('x1',point.x);cursor.setAttribute('x2',point.x);}
+    if(dot){dot.setAttribute('cx',point.x);dot.setAttribute('cy',point.y);}
+  }
+  function renderTimeline(){
+    const {now,first,byDay,events}=timeSeries();
+    const updated=new Set(events.map(e=>dateKey(new Date(e.at))));
+    const sortedDates=[...updated].sort();let longest=0,streak=0,prior=null;
+    for(const key of sortedDates){
+      const d=dayStart(new Date(`${key}T12:00:00`));
+      streak=prior && Math.round((d-prior)/86400000)===1?streak+1:1;
+      longest=Math.max(longest,streak);prior=d;
+    }
+    const monday=dayStart(new Date());monday.setDate(monday.getDate()-(monday.getDay()+6)%7);
+    const thisWeek=events.filter(e=>e.action==='master' && new Date(e.at)>=monday).length;
+    $('timeline-total').innerHTML=`${countDone()}<span> / 130</span>`;
+    $('timeline-week').textContent=thisWeek;
+    $('timeline-days').textContent=updated.size;
+    $('timeline-streak').innerHTML=`${longest}<span> day${longest===1?'':'s'}</span>`;
+    document.querySelectorAll('.time-range').forEach(btn=>{const active=btn.dataset.range===timelineRange;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});
+    let beginning=dayStart(now);
+    if(timelineRange==='all')beginning=dayStart(first);
+    else beginning.setDate(beginning.getDate()-Number(timelineRange)+1);
+    // The horizontal axis always spans the chosen period, but dates before the
+    // tracking start are intentionally blank rather than invented as zero.
+    const displayDays=[],valid=[];
+    for(let d=new Date(beginning);d<=now;d.setDate(d.getDate()+1)){
+      const entry=byDay.get(dateKey(d));
+      displayDays.push({date:new Date(d),entry});
+    }
+    const maxObserved=Math.max(1,...displayDays.filter(d=>d.entry).map(d=>d.entry.total));
+    const topValue=Math.min(130,Math.max(5,Math.ceil(maxObserved/5)*5));
+    const left=46,right=737,top=25,bottom=239,height=bottom-top,width=right-left;
+    const plotX=i=>left+(displayDays.length===1?width:i/(displayDays.length-1)*width);
+    const plotY=v=>bottom-v/topValue*height;
+    const ticks=[0,Math.round(topValue/2),topValue];
+    let svg=ticks.map(t=>`<line x1="${left}" y1="${plotY(t)}" x2="${right}" y2="${plotY(t)}" class="chart-grid"/><text x="${left-11}" y="${plotY(t)+4}" text-anchor="end" class="chart-label">${t}</text>`).join('');
+    const points=displayDays.map((d,i)=>d.entry?{...d.entry,x:plotX(i),y:plotY(d.entry.total)}:null).filter(Boolean);
+    chartDays=points;
+    if(points.length){
+      const line=points.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
+      const area=`${line} L ${points.at(-1).x.toFixed(2)} ${bottom} L ${points[0].x.toFixed(2)} ${bottom} Z`;
+      svg+=`<path d="${area}" class="chart-area"/><path d="${line}" class="chart-line"/>`;
+      svg+=`<line id="timeline-cursor" x1="${points.at(-1).x}" y1="${top}" x2="${points.at(-1).x}" y2="${bottom}" class="chart-cursor"/><circle id="timeline-active-dot" cx="${points.at(-1).x}" cy="${points.at(-1).y}" r="6" class="chart-dot"/>`;
+    }
+    const indices=[0,Math.floor((displayDays.length-1)/2),displayDays.length-1];
+    svg+=[...new Set(indices)].map(i=>`<text x="${plotX(i)}" y="${bottom+29}" text-anchor="${i===0?'start':i===displayDays.length-1?'end':'middle'}" class="chart-label">${displayDays[i].date.toLocaleDateString(undefined,{day:'numeric',month:'short'})}</text>`).join('');
+    $('timeline-chart').innerHTML=svg;
+    $('timeline-chart').setAttribute('aria-label',`Progress from ${displayDate(beginning)} to ${displayDate(now)}, ending at ${countDone()} mastered skills. ${points.length} days of tracked history shown.`);
+    inspectDay(points.at(-1));
+    const squares=[];
+    for(let i=34;i>=0;i--){
+      const day=new Date(now);day.setDate(day.getDate()-i);
+      const entry=byDay.get(dateKey(day));const number=entry?entry.marked:0;
+      const intensity=number===0?0:number===1?1:number<=3?2:number<=6?3:4;
+      squares.push(`<div class="heat-cell heat-${intensity} ${dateKey(day)===dateKey(now)?'heat-today':''}" title="${displayDate(day)} · ${number} skill${number===1?'':'s'} marked" aria-label="${displayDate(day)}, ${number} marked" tabindex="0"></div>`);
+    }
+    $('timeline-heatmap').innerHTML=squares.join('');
+    const thresholds=[1,5,10,20,30,50,75,100,130],total=countDone();
+    const next=thresholds.find(t=>t>total),previous=[0,...thresholds].filter(t=>t<=total).at(-1);
+    const fraction=next?(total-previous)/(next-previous)*100:100;
+    $('timeline-milestone').innerHTML=next?`<div class="milestone-big">${next}<span> skills</span></div><p class="milestone-copy">${next-total} more mastered skill${next-total===1?'':'s'} to your next milestone.</p><div class="milestone-track"><div style="width:${fraction}%"></div></div><div class="milestone-foot"><span>${total} mastered</span><span>Goal: ${next}</span></div>`:`<div class="milestone-big">130 <span> / 130</span></div><p class="milestone-copy">Every challenge mastered. Keep inventing your own combinations!</p>`;
+    const recent=events.slice(-9).reverse();
+    const messages=recent.map(e=>{
+      const skill=skillById.get(e.id);
+      const label=e.action==='master'?'Skill mastered':e.action==='unmaster'?'Skill unmarked':'Progress reset';
+      const name=skill?skill.name:'All skills';
+      return `<div class="timeline-event"><span class="event-symbol ${e.action}">${e.action==='master'?'✓':e.action==='unmaster'?'↶':'↺'}</span><div><strong>${label}</strong><small>${safeText(name)}</small></div><time datetime="${e.at}">${displayDate(new Date(e.at))}</time></div>`;
+    });
+    if(!recent.length){messages.push(`<div class="timeline-event"><span class="event-symbol master">✳</span><div><strong>Your tracking starts here</strong><small>${history.baseline.length?`${history.baseline.length} skills already mastered when this update was installed`:'Master your first skill to start building a history'}</small></div><time>${displayDate(new Date(history.startedAt))}</time></div>`);}
+    $('timeline-events').innerHTML=messages.join('');
+  }
   function renderDrawer(id){
     const s=skillById.get(id);if(!s)return;
     const c=CATEGORIES[s.category],st=status(s),downstream=dependencies(s.id),prereqs=s.prereqs.map(x=>skillById.get(x)).filter(Boolean);
@@ -473,7 +702,7 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
     selectedId=null;highlightEdges();
   }
   function exportProgress(){
-    const data={app:'Freestyle 130',version:1,exportedAt:new Date().toISOString(),completed:[...completed]};
+    const data={app:'Freestyle 130',version:2,exportedAt:new Date().toISOString(),completed:[...completed],history};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');
     a.href=url;a.download='freestyle-130-progress.json';document.body.appendChild(a);a.click();a.remove();
@@ -488,11 +717,13 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
       if(!Array.isArray(data.completed))throw Error('Invalid progress backup.');
       const ids=data.completed.filter(x=>typeof x==='string'&&allIds.has(x));
       if(!window.confirm(`Import ${ids.length} mastered skills? This will replace progress on this device.`))return;
-      completed=new Set(ids);saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills.`);
+      completed=new Set(ids);
+      history=validatedHistory(data.history,completed)||freshHistory(completed);
+      saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills${data.history?' and compatible history':''}.`);
     }catch(err){showToast(`Could not import: ${err.message}`);}
     finally{event.target.value='';}
   }
-  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();}
+  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();renderTimeline();}
   function init(){
     initNavigation();renderAll();
     if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
@@ -502,6 +733,6 @@ T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
   init();
 })();
 
-  </script>
+</script>
 </body>
 </html>

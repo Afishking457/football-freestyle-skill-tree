@@ -1,5 +1,5 @@
 /* Offline cache for GitHub Pages / HTTPS installation. Bump CACHE_VERSION for updates. */
-const CACHE_VERSION = 'freestyle-130-v1';
+const CACHE_VERSION = 'freestyle-130-v2';
 const FILES = ['./', './index.html', './style.css', './data.js', './app.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_VERSION).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));

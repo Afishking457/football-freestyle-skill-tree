@@ -58,3 +58,26 @@ The list includes named tricks and training challenges. Difficulty and prerequis
 - Old version after editing? Change `CACHE_VERSION` in `sw.js`, commit changes and reload once online; if necessary, clear that site's cached data. Export progress first.
 - Progress missing on another device? Export/import it; there is no cloud sync.
 - On an unsupported browser, localStorage may be unavailable. The app will say *Saving unavailable* instead of claiming it saved.
+
+## New in v2: Progress over time
+
+Open **Progress over time** in the side navigation, or **Journey** in the phone's bottom navigation.
+
+- **Skills mastered over time:** interactive line graph with **30 days / 90 days / all** filters. Tap the graph to inspect a date.
+- **Activity calendar:** past 35 days of mastery checkmarks (not a training-attendance log).
+- **Milestones:** next mastery target; **recent milestones** show dated mastery/undo/reset changes.
+- **Statistics:** currently mastered, marks made this week, active update days, and longest consecutive update-day streak.
+- Undoing a skill or resetting progress lowers the chart's mastery total; earlier history stays visible.
+
+### Updating your already-installed GitHub Pages app
+
+1. **Optional but strongly recommended:** Open your current app and select **My progress → Export progress** to save a backup first.
+2. Unzip **the new v2 download**. In your *existing* GitHub repository, replace the original `index.html`, `style.css`, `app.js`, `data.js`, `sw.js`, `manifest.webmanifest`, `README.md` and `icons/` files with the new ones. Upload the **contents** of the extracted folder into the repository root — do **not** create a second nested folder. Keep the same repository name and GitHub Pages URL.
+3. GitHub Pages will publish the update. Reopen your installed app while online and reload. A second close/reopen or reload may be necessary while the offline cache replaces the original app.
+4. You should now have a **Journey** tab on your phone, alongside Map, Skills, and Progress.
+
+**Important:** Your original mastered skills are still read from the *same* `freestyle-130-progress-v1` localStorage key. This update doesn't erase them. The first time v2 loads, already-mastered skills become your **baseline starting today** because v1 did not record when those skills were originally mastered. From then on, each mark, undo, and reset is dated automatically. The graph is a record of **skill checkmarks**, not a measure of training time.
+
+### Backups and moving your history to another device
+
+Exported JSON files now have `version: 2` and include `history` as well as `completed`. Import v2 JSON on another device to restore both mastery and history. Old v1 JSON files still import completed skills, but their previous mastery dates were never recorded, so history starts on the import date. Changing your GitHub Pages URL creates a separate storage location; use Export/Import if you change it. Data does not sync online.
