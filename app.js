@@ -96,6 +96,7 @@
     renderLibrary();
     renderProgress();
     renderTimeline();
+    window.FreestyleTraining?.render();
     if (selectedId) renderDrawer(selectedId);
     const newlyReady = SKILL_DATA.filter(s => status(s) === 'ready' && !previousReady.has(s.id));
     showToast(shouldComplete ? `Mastered: ${skill.name}${newlyReady.length ? ` · ${newlyReady.length} new skill${newlyReady.length===1?'':'s'} ready` : ''}` : `Unmarked: ${skill.name}`);
@@ -117,7 +118,9 @@
       const jump = event.target.closest('[data-jump]');
       if(jump){openSkill(jump.dataset.jump);return;}
       const master = event.target.closest('[data-master]');
-      if(master)toggleSkill(master.dataset.master);
+      if(master){toggleSkill(master.dataset.master);return;}
+      const practice=event.target.closest('[data-practice]');
+      if(practice){closeDrawer();window.FreestyleTraining?.setFocus(practice.dataset.practice);navigate('train');}
     });
     $('library-grid').addEventListener('click',event=>{
       const button=event.target.closest('[data-open]'); if(button)openSkill(button.dataset.open);
@@ -152,16 +155,17 @@
     });
   }
   function navigate(to) {
-    if(!['map','library','progress','timeline'].includes(to))return;
+    if(!['map','library','progress','timeline','train','quests','challenges','videos'].includes(to))return;
     screen=to;
     document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===`screen-${to}`));
     document.querySelectorAll('[data-screen]').forEach(el=>{
-      const active=el.dataset.screen===to;
+      const active=el.dataset.screen===to || (el.closest('.bottom-nav') && el.dataset.screen==='train' && ['quests','challenges','videos'].includes(to));
       el.classList.toggle('active',active);
       if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');
     });
     closeDrawer();
     if(to==='map')requestAnimationFrame(()=>{if(!$('map-world').children.length)renderMap(true);});
+    if(['timeline','train','quests','challenges','videos'].includes(to))window.FreestyleTraining?.render();
     window.scrollTo({top:0,behavior:'instant'});
   }
   function renderSummary(){
@@ -358,6 +362,7 @@
     <h2>${safeText(s.name)}</h2><div class="detail-meta"><span>LEVEL ${s.level} · ${LEVEL_NAMES[s.level-1].toUpperCase()}</span><span class="detail-status ${st}">${statusLabel[st]}</span></div>
     <p class="detail-copy">${st==='done'?'You have marked this trick as mastered.':st==='ready'?'You have checked off the suggested prerequisites. This trick is ready for practice.':`Complete ${remaining(s).length} suggested prerequisite${remaining(s).length===1?'':'s'} to unlock this challenge.`} Your technique and consistency matter more than the level number.</p>
     <button class="master-btn ${st==='done'?'is-done':''}" data-master="${s.id}">${st==='done'?'✓ Marked mastered — undo':`✓ Mark as mastered`}</button>
+    <button class="master-btn practice-from-drawer" data-practice="${s.id}">◷ Practise this skill</button>
     <div class="drawer-section"><h3>PREREQUISITES <span>${prereqs.length}</span></h3>${prereqs.length?prereqs.map(p=>`<button class="related-skill" data-jump="${p.id}"><span class="related-mark ${completed.has(p.id)?'complete':''}">${completed.has(p.id)?'✓':'○'}</span><span><strong>${safeText(p.name)}</strong><small>${p.id} · ${CATEGORIES[p.category].name}</small></span><span>↗</span></button>`).join(''):`<p class="drawer-empty">Starting skill — no prerequisites.</p>`}</div>
     <div class="drawer-section"><h3>UNLOCKS NEXT <span>${downstream.length}</span></h3>${downstream.length?downstream.slice(0,14).map(p=>`<button class="related-skill" data-jump="${p.id}"><span class="related-mark ${completed.has(p.id)?'complete':''}">${completed.has(p.id)?'✓':'→'}</span><span><strong>${safeText(p.name)}</strong><small>${p.id} · LVL ${p.level}</small></span><span>↗</span></button>`).join(''):'<p class="drawer-empty">End of this progression branch.</p>'}</div>`;
     $('drawer-content').scrollTop=0;
@@ -394,30 +399,34 @@
     selectedId=null;highlightEdges();
   }
   function exportProgress(){
-    const data={app:'Freestyle 130',version:2,exportedAt:new Date().toISOString(),completed:[...completed],history};
+    const data={app:'Freestyle 130',version:3,exportedAt:new Date().toISOString(),completed:[...completed],history,training:window.FreestyleTraining?.exportData(),videosIncluded:false};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');
     a.href=url;a.download='freestyle-130-progress.json';document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
-    showToast('Progress exported as JSON backup.');
+    showToast('Mastery, practice and scores exported. Videos are not included.');
   }
   async function importProgress(event){
     const file=event.target.files?.[0];if(!file)return;
     try{
-      if(file.size>2_000_000)throw Error('File is too large.');
+      if(file.size>6_000_000)throw Error('File is too large.');
       const data=JSON.parse(await file.text());
       if(!Array.isArray(data.completed))throw Error('Invalid progress backup.');
       const ids=data.completed.filter(x=>typeof x==='string'&&allIds.has(x));
-      if(!window.confirm(`Import ${ids.length} mastered skills? This will replace progress on this device.`))return;
+      if(!window.confirm(`Import ${ids.length} mastered skills? This replaces mastery and history on this device. A v3 backup also replaces practice logs and scores; videos remain separate.`))return;
       completed=new Set(ids);
       history=validatedHistory(data.history,completed)||freshHistory(completed);
-      saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills${data.history?' and compatible history':''}.`);
+      saveProgress();
+      if(data.version>=3 && data.training)window.FreestyleTraining?.importData(data.training);
+      renderAll();showToast(`Imported ${ids.length} mastered skills${data.history?' and compatible history':''}.`);
     }catch(err){showToast(`Could not import: ${err.message}`);}
     finally{event.target.value='';}
   }
-  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();renderTimeline();}
+  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();renderTimeline();window.FreestyleTraining?.render();}
   function init(){
-    initNavigation();renderAll();
+    initNavigation();
+    window.FreestyleTraining?.init({navigate,toast:showToast,getCompleted:()=>new Set(completed)});
+    renderAll();
     if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
       window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
     }

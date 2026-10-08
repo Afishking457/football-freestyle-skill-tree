@@ -12,7 +12,8 @@
   <link rel="icon" type="image/png" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="style.css" />
-  <title>Freestyle 130 · Football Skill Tree</title>
+  <link rel="stylesheet" href="v3.css" />
+  <title>Freestyle 130 v3 · Train & Progress</title>
 </head>
 <body>
   <div class="app-shell">
@@ -24,6 +25,10 @@
         <button class="nav-item" data-screen="library"><span class="nav-symbol">▦</span> Skill library</button>
         <button class="nav-item" data-screen="progress"><span class="nav-symbol">◉</span> My progress</button>
         <button class="nav-item" data-screen="timeline"><span class="nav-symbol">↗</span> Progress over time</button>
+        <button class="nav-item" data-screen="train"><span class="nav-symbol">◷</span> Training hub</button>
+        <button class="nav-item" data-screen="quests"><span class="nav-symbol">✦</span> Daily quests</button>
+        <button class="nav-item" data-screen="challenges"><span class="nav-symbol">⏱</span> Timed challenges</button>
+        <button class="nav-item" data-screen="videos"><span class="nav-symbol">▣</span> Video timeline</button>
       </nav>
       <div class="side-section-label spaced">DISCIPLINES</div>
       <nav class="side-branches" id="sidebar-branches" aria-label="Skill disciplines"></nav>
@@ -69,7 +74,7 @@
           <div class="progress-feature"><div><div class="eyebrow mini">TOTAL MASTERY</div><strong class="giant-number"><span id="big-progress">0</span><span class="giant-suffix"> / 130</span></strong><div class="progress-track"><div id="progress-track-fill"></div></div><p id="progress-summary">Your freestyle journey starts here.</p></div><div class="progress-emblem" aria-hidden="true">✳</div></div>
           <div class="results-title"><h2>Discipline breakdown</h2><span>YOUR SIX PATHS</span></div><div class="discipline-stats" id="discipline-stats"></div>
           <div class="results-title"><h2>What to practise next</h2><span>UNLOCKED CHALLENGES</span></div><div class="next-skills" id="next-skills"></div>
-          <div class="data-box"><div><h3>Your data stays yours</h3><p>Progress is stored in your browser, on this phone or computer. Export a backup to transfer it to another device or browser.</p></div><div class="data-actions"><button class="action-btn" id="export-progress">↓ Export progress</button><label for="import-file" class="action-btn secondary-btn">↑ Import progress</label><input type="file" accept="application/json,.json" id="import-file" hidden /><button class="action-btn danger-btn" id="clear-progress">Reset all skills</button></div></div>
+          <div class="data-box"><div><h3>Your data stays yours</h3><p>Progress, practice sessions, and scores are saved on this device. Export a JSON backup regularly. Video clips are stored separately on this device and are NOT included in the JSON backup.</p></div><div class="data-actions"><button class="action-btn" id="export-progress">↓ Export progress</button><label for="import-file" class="action-btn secondary-btn">↑ Import progress</label><input type="file" accept="application/json,.json" id="import-file" hidden /><button class="action-btn danger-btn" id="clear-progress">Reset all skills</button></div></div>
         </section>
 
         <section class="screen" id="screen-timeline" aria-labelledby="timeline-heading">
@@ -91,19 +96,68 @@
               <section class="timeline-panel" aria-labelledby="timeline-activity-heading"><div class="eyebrow mini">YOUR CONSISTENCY</div><h2 id="timeline-activity-heading">Activity calendar</h2><p class="timeline-note">Each square is one day. Brighter squares mean you marked more skills as mastered. This tracks app activity, not training sessions.</p><div id="timeline-heatmap" class="timeline-heatmap" role="img" aria-label="Activity across the last 35 days"></div><div class="heatmap-key"><span>LESS</span><i></i><i></i><i></i><i></i><span>MORE</span></div></section>
               <section class="timeline-panel" aria-labelledby="timeline-milestone-heading"><div class="eyebrow mini">NEXT BIG WIN</div><h2 id="timeline-milestone-heading">Next milestone</h2><div id="timeline-milestone"></div></section>
             </div>
+            <section class="timeline-panel" aria-label="Practice over time"><div class="eyebrow mini">EVERY MINUTE COUNTS</div><h2>Practice minutes · Last 14 days</h2><div id="training-graph" class="practice-bars" role="img" aria-label="Practice minutes recorded for the last 14 days"></div><p class="timeline-note">Practice logs count here even when you haven't mastered a new trick.</p></section>
             <section class="timeline-panel timeline-recent" aria-labelledby="timeline-recent-heading"><div class="eyebrow mini">YOUR STORY</div><h2 id="timeline-recent-heading">Recent milestones</h2><div id="timeline-events" class="timeline-events"></div></section>
             <p class="timeline-privacy">Your history stays on this device and is included in new progress exports. If you already had mastered skills before this update, they become your starting point today—we won't invent dates for your earlier wins.</p>
           </div>
+        </section>
+
+        <!-- Training pages: new in v3. Mastery screens above are unchanged. -->
+        <section class="screen" id="screen-train" aria-labelledby="train-heading">
+          <div class="sub-hero v3-hero"><div class="eyebrow"><span class="eyebrow-line"></span> SHOW UP. IMPROVE. REPEAT.</div><h1 id="train-heading">Training <em>hub.</em></h1><p>Practising counts, even when you're still learning the move. Use the timer or manually log a session.</p></div>
+          <div class="v3-content">
+            <div class="v3-stats"><div class="v3-stat"><small>TOTAL TRAINING</small><strong id="training-total">0m</strong><span>All logged time</span></div><div class="v3-stat"><small>THIS WEEK</small><strong id="training-week">0m</strong><span>Training minutes</span></div><div class="v3-stat"><small>SESSIONS</small><strong id="training-sessions">0</strong><span>Recorded sessions</span></div></div>
+            <div class="v3-split">
+              <section class="v3-panel"><div class="eyebrow mini">PRACTICE CLOCK</div><h2>Log today's work</h2><label for="training-skill" class="v3-field">What are you working on?<select id="training-skill"></select></label>
+                <div class="clock-face" id="training-clock" aria-live="off">00:00</div>
+                <div class="v3-actions"><button id="timer-start" class="v3-primary">▶ Start</button><button id="timer-pause" class="v3-secondary" disabled>Pause</button><button id="timer-save" class="v3-secondary" disabled>Save session</button><button id="timer-reset" class="v3-quiet">Reset</button></div>
+                <p class="v3-help" id="timer-status">Timer is ready. Save when your session is finished.</p>
+                <hr class="v3-rule"/>
+                <label for="manual-minutes" class="v3-field">Or log training manually (minutes)<input id="manual-minutes" type="number" inputmode="decimal" min="1" max="300" step="0.5" placeholder="e.g. 20"/></label>
+                <label for="practice-notes" class="v3-field">Session notes (optional)<textarea id="practice-notes" rows="2" maxlength="220" placeholder="What felt easier today?"></textarea></label>
+                <button class="v3-primary" id="manual-save">＋ Save manual session</button>
+              </section>
+              <section class="v3-panel"><div class="eyebrow mini">YOUR WEEK</div><h2>Weekly training goal</h2><div class="weekly-goal-number" id="weekly-progress">0 / 3</div><div class="v3-track"><div id="weekly-fill"></div></div><label class="v3-field" for="weekly-target">Sessions each week (5+ min)<select id="weekly-target"><option value="1">1 session</option><option value="2">2 sessions</option><option value="3">3 sessions</option><option value="4">4 sessions</option><option value="5">5 sessions</option><option value="6">6 sessions</option><option value="7">7 sessions</option></select></label><p class="v3-help">Your week starts on Monday. Rest days are okay; no streak penalties.</p>
+                <hr class="v3-rule"/><div class="v3-panel-head"><h2>Ready for more?</h2></div><div class="v3-shortcuts"><button data-screen="quests">✦ Daily quests <span>↗</span></button><button data-screen="challenges">⏱ Timed challenges <span>↗</span></button><button data-screen="videos">▣ Video comparisons <span>↗</span></button></div>
+              </section>
+            </div>
+            <section class="v3-panel"><div class="eyebrow mini">PERSONAL BESTS</div><h2>Every rep counts</h2><p class="v3-help">Record attempts, even if they're not a new record. Your highest result for each skill and metric is your PB.</p>
+              <div class="v3-split form-split"><label class="v3-field" for="best-skill">Skill<select id="best-skill"></select></label><label class="v3-field" for="best-metric">Measure<select id="best-metric"><option value="landings">Clean landings</option><option value="streak">Consecutive landings</option><option value="touches">Juggling touches</option><option value="seconds">Seconds held</option></select></label></div>
+              <div class="best-action-row"><label class="v3-field" for="best-value">Your score<input type="number" id="best-value" min="0" step="1" max="100000" inputmode="numeric" placeholder="e.g. 7"/></label><button class="v3-primary" id="best-save">＋ Record attempt</button></div><p class="v3-record" id="best-current">Personal best: 0 landings</p><div id="personal-best-list" class="v3-log-list"></div>
+            </section>
+            <section class="v3-panel"><div class="v3-panel-head"><div><div class="eyebrow mini">YOUR LOGBOOK</div><h2>Recent practice sessions</h2></div></div><div id="training-session-list" class="v3-log-list"></div></section>
+          </div>
+        </section>
+        <section class="screen" id="screen-quests" aria-labelledby="quests-heading">
+          <div class="sub-hero v3-hero"><div class="eyebrow"><span class="eyebrow-line"></span> YOUR DAILY GAME PLAN</div><h1 id="quests-heading">Daily <em>quests.</em></h1><p>Personalised suggestions from your skill tree. Quests complete when your practice logs meet their goals.</p></div>
+          <div class="v3-content"><div class="v3-stats"><div class="v3-stat"><small>QUESTS COMPLETED</small><strong id="quest-total">0 / 3</strong><span>Today</span></div><div class="v3-stat"><small>YOUR FOCUS</small><strong id="quest-focus-level">–</strong><span>Suggested level</span></div><div class="v3-stat"><small>DAILY TRAINING</small><strong id="quest-minutes">0m</strong><span>Logged today</span></div></div>
+            <section class="v3-panel"><div class="eyebrow mini">PERSONALISED FOCUS</div><h2 id="quest-focus-title">Today's focus</h2><p class="v3-help" id="quest-focus-desc"></p><label for="quest-focus-select" class="v3-field">Choose a different focus skill<select id="quest-focus-select"></select></label><button class="v3-secondary" id="quest-open-focus">Start training this skill ↗</button></section>
+            <div id="daily-quests" class="quest-grid"></div>
+            <section class="v3-panel"><div class="eyebrow mini">YOUR ROUTINE</div><h2>Suggested 20-minute routine</h2><div id="routine-steps" class="routine-steps"></div><p class="v3-help">Adjust the duration to your energy and skill level. A routine is guidance, not a compulsory workout.</p></section>
+          </div>
+        </section>
+        <section class="screen" id="screen-challenges" aria-labelledby="challenges-heading">
+          <div class="sub-hero v3-hero"><div class="eyebrow"><span class="eyebrow-line"></span> BEAT YOUR LAST SCORE</div><h1 id="challenges-heading">Timed <em>challenges.</em></h1><p>Start a countdown, attempt a skill test, and record your actual result. Your best scores are saved.</p></div>
+          <div class="v3-content"><div id="challenge-cards" class="challenge-grid"></div>
+            <section class="v3-panel challenge-play" id="challenge-play" aria-live="polite"><div class="eyebrow mini">CURRENT CHALLENGE</div><h2 id="challenge-play-title">Choose a challenge above</h2><p class="v3-help" id="challenge-instructions">Your timer will appear here.</p><div class="clock-face" id="challenge-clock">00:00</div><div class="v3-actions"><button id="challenge-start" class="v3-primary" disabled>▶ Start</button><button id="challenge-pause" class="v3-secondary" disabled>Pause</button><button id="challenge-finish" class="v3-secondary" disabled>Finish early</button></div>
+              <div id="challenge-score-panel" hidden><label class="v3-field" for="challenge-score">Your score (enter your actual result)<input type="number" id="challenge-score" min="0" max="100000" step="1" inputmode="numeric"/></label><button id="challenge-score-save" class="v3-primary">Save challenge result</button></div><p class="v3-help">Results are self-reported. The app does not measure tricks automatically.</p></section>
+            <section class="v3-panel"><h2>Recent challenge attempts</h2><div id="challenge-history" class="v3-log-list"></div></section></div>
+        </section>
+        <section class="screen" id="screen-videos" aria-labelledby="videos-heading">
+          <div class="sub-hero v3-hero"><div class="eyebrow"><span class="eyebrow-line"></span> WATCH YOURSELF IMPROVE</div><h1 id="videos-heading">Video <em>timeline.</em></h1><p>Save short clips locally on this device and compare your technique from different dates.</p></div>
+          <div class="v3-content"><section class="v3-panel"><div class="eyebrow mini">ADD A CLIP</div><h2>Capture your technique</h2><div class="v3-split form-split"><label class="v3-field" for="video-skill">Skill in your video<select id="video-skill"></select></label><label class="v3-field" for="video-input">Choose video (up to 75 MB)<input id="video-input" type="file" accept="video/*"/></label></div><button id="video-save" class="v3-primary">＋ Save video locally</button><p class="v3-help" id="video-feedback">Clips are stored on this device using IndexedDB, not uploaded to a server. Exported JSON backups DO NOT include video files. Keep originals on your phone.</p></section>
+            <section class="v3-panel"><div class="eyebrow mini">SIDE-BY-SIDE</div><h2>Before / After</h2><div class="v3-split form-split"><label class="v3-field" for="video-before">Before<select id="video-before"></select></label><label class="v3-field" for="video-after">After<select id="video-after"></select></label></div><div class="video-comparison"><div class="video-frame"><span>BEFORE</span><div id="video-before-player" class="video-slot">Select your first clip</div></div><div class="video-frame"><span>AFTER</span><div id="video-after-player" class="video-slot">Select your later clip</div></div></div></section>
+            <section class="v3-panel"><div class="eyebrow mini">YOUR STORY</div><h2>Video timeline</h2><div id="video-list" class="v3-log-list"></div></section></div>
         </section>
       </main>
       <footer class="app-footer">BUILT FOR THE LOVE OF FOOTBALL <span>✳</span> TRAIN. CREATE. REPEAT.</footer>
     </div>
   </div>
 
-  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="timeline"><span>↗</span>Journey</button><button data-screen="progress"><span>◉</span>Progress</button></nav>
+  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="train"><span>◷</span>Train</button><button data-screen="timeline"><span>↗</span>Journey</button><button data-screen="progress"><span>◉</span>More</button></nav>
   <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
   <aside class="skill-drawer" id="skill-drawer" aria-label="Skill details" role="dialog" aria-modal="true" aria-hidden="true"><div class="drawer-grab"></div><button id="drawer-close" class="drawer-close" aria-label="Close skill details">✕</button><div id="drawer-content"></div></aside>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="data.js"></script><script src="app.js"></script>
+  <script src="data.js"></script><script src="training.js"></script><script src="app.js"></script>
 </body>
 </html>
