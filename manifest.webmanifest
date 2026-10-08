@@ -1,0 +1,15 @@
+{
+  "id": "./",
+  "name": "Freestyle 130 — Football Skill Tree",
+  "short_name": "Freestyle 130",
+  "description": "Master 130 freestyle football challenges with a branching skill map and saved progress.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090f1b",
+  "theme_color": "#0a101e",
+  "icons": [
+    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

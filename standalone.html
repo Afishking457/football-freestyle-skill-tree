@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a101e" />
+  <meta name="description" content="An interactive 130-challenge freestyle football progression tree. Track tricks, unlock skills and train offline." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Freestyle 130" />
+  <style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#eef1f6;background:#090f1b;font-synthesis:none;--bg:#090f1b;--surface:#101a2c;--surface2:#162237;--border:#29334a;--muted:#8b97ac;--lime:#c2f66b;--paper:#eef1f6}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;min-height:100dvh}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lime);outline-offset:3px}button:disabled{opacity:.4;cursor:not-allowed}a{color:var(--lime)}[hidden]{display:none!important}.app-shell{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}.sidebar{background:#0c1525;border-right:1px solid #253047;padding:28px 15px 20px;position:sticky;top:0;align-self:start;height:100vh;display:flex;flex-direction:column;gap:0}.brand,.mobile-brand{display:flex;align-items:center;gap:10px;padding:2px 10px}.brand-mark{font-size:32px;color:var(--lime);line-height:1}.brand strong,.mobile-brand strong{letter-spacing:-.06em;font-size:18px;white-space:nowrap}.brand-light{color:var(--lime)}.brand-kicker{font-size:9px;letter-spacing:.21em;display:block;color:#8091a5;margin-top:3px;font-weight:700}.side-section-label{font-size:10px;letter-spacing:.2em;color:#67788f;padding:39px 11px 12px;font-weight:800}.side-section-label.spaced{padding-top:28px}.side-nav,.side-branches{display:flex;flex-direction:column;gap:5px}.nav-item,.branch-side{background:transparent;border:0;width:100%;color:#94a4b8;text-align:left;display:flex;align-items:center;gap:12px;border-radius:10px;padding:12px 12px;font-size:13px;font-weight:650;transition:background .15s,color .15s}.nav-item:hover,.branch-side:hover,.nav-item.active,.branch-side.active{background:#1b2940;color:white}.nav-item.active{border-left:3px solid var(--lime)}.nav-symbol{font-size:20px;line-height:1;color:#8e9bb1;width:24px}.nav-item.active .nav-symbol{color:var(--lime)}.side-glyph{font-size:19px;width:25px;color:var(--accent);text-align:center}.side-counter{margin-left:auto;font-size:10px;color:#8090a4;font-variant-numeric:tabular-nums}.sidebar-footer{margin-top:auto;background:#18243a;border:1px solid #293955;padding:13px 11px;border-radius:12px;display:flex;gap:10px;align-items:center}.small-football{font-size:24px}.sidebar-footer strong,.sidebar-footer span:not(.small-football){display:block}.sidebar-footer strong{font-size:12px}.sidebar-footer div span{font-size:11px;color:var(--muted);margin-top:4px}.main-column{min-width:0}.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid #222d41}.desktop-top-title{font-size:10px;font-weight:750;letter-spacing:.2em;color:#95a3b6}.slash{color:var(--lime);margin:0 7px}.topbar-right{display:flex;gap:15px;align-items:center}.saved-indicator{color:#8fa29a;font-size:11px}.level-tag{border:1px solid #425837;color:var(--lime);background:#18291e;border-radius:7px;padding:8px 10px;font-size:10px;letter-spacing:.08em;font-weight:800}.mobile-brand{display:none}.screen{display:none}.screen.active{display:block}.hero{padding:47px 42px 37px;border-bottom:1px solid #222d41;background:radial-gradient(ellipse at 95% 20%,rgba(70,120,90,.11),transparent 45%),linear-gradient(130deg,#0e1729,#0a111d 73%)}.eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:850;letter-spacing:.19em;color:var(--lime)}.eyebrow-line{width:20px;height:1px;background:var(--lime)}h1{font-size:clamp(37px,5vw,69px);font-weight:850;letter-spacing:-.067em;line-height:1.05;margin:15px 0 14px}h1 em{color:var(--lime);font-style:normal}.hero p,.sub-hero p{max-width:520px;font-size:14px;line-height:1.75;color:#9eaabd;margin:0}.hero-numbers{display:flex;gap:47px;margin-top:32px}.hero-numbers>div{display:flex;flex-direction:column;gap:5px}.hero-numbers strong{font-size:30px;letter-spacing:-.06em}.hero-numbers strong .dimmed{color:#728098;font-size:20px}.hero-numbers>div>span{font-size:9px;letter-spacing:.17em;color:#8a99af;font-weight:750}.map-section{padding:30px 36px 45px}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:15px}.eyebrow.mini{font-size:9px;letter-spacing:.17em;color:#8ba3c6}h2{letter-spacing:-.055em;font-size:27px;margin:6px 0 0}.tiny-spark{font-size:18px;color:var(--lime)}.map-legend{display:flex;gap:16px;font-size:11px;color:#91a0b5;flex-wrap:wrap}.map-legend>span{display:flex;align-items:center;gap:6px}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#566275}.legend-dot.done{background:#a9e26b}.legend-dot.ready{background:#77cce8}.branch-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin;padding:23px 0 16px}.branch-tab{background:#111d31;color:#98a6b9;border:1px solid #26334a;border-radius:9px;white-space:nowrap;display:flex;align-items:center;gap:7px;padding:11px 12px;font-size:12px;font-weight:700}.branch-tab:hover,.branch-tab.active{color:#f2f7f1;border-color:#719344;background:#202f27}.branch-tab.active .tab-glyph{color:var(--lime)}.tab-glyph{font-size:18px;line-height:1}.tab-count{background:#25344b;padding:3px 5px;border-radius:5px;font-size:10px;color:#b6c3d0}.map-toolbar{background:#17243a;border:1px solid #2b3a51;border-radius:12px 12px 0 0;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}.map-context{display:flex;gap:12px;align-items:center}.map-context-icon{font-size:26px;background:#243147;width:38px;height:38px;text-align:center;line-height:37px;border-radius:8px}.map-context strong,.map-context span:last-child{display:block}.map-context strong{font-size:13px}.map-context div span{font-size:11px;color:#9aabc0;margin-top:3px}.toolbar-controls{display:flex;gap:7px;align-items:center}.small-btn{border:1px solid #42506a;background:#233149;color:white;width:31px;height:31px;border-radius:7px;font-size:18px;display:grid;place-items:center}.small-btn:hover{border-color:var(--lime)}.fit-btn{width:auto;display:flex;align-items:center;padding:0 8px;gap:5px;font-size:13px}.fit-btn span{font-size:10px}.zoom-reading{font-size:11px;font-weight:750;color:#a8b6ca;min-width:33px;text-align:center}.map-scroll{height:min(67vh,680px);min-height:380px;background-color:#0d1728;background-image:radial-gradient(#27344b 1px,transparent 1px);background-size:23px 23px;overflow:auto;overscroll-behavior:contain;border:1px solid #2b3a51;border-top:none;border-radius:0 0 12px 12px;scrollbar-color:#3a4960 #101a2b;touch-action:pan-x pan-y;position:relative}.map-scale-holder{position:relative}.map-world{position:absolute;top:0;left:0;transform-origin:top left;will-change:transform}.map-edges{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}.edge{fill:none;stroke:#3c5367;stroke-width:1.6;opacity:.26;transition:opacity .2s,stroke .2s}.edge-active{stroke:var(--lime);stroke-width:2.4;opacity:.9}.stage-heading{position:absolute;width:205px;font-size:10px;font-weight:850;letter-spacing:.12em;color:#8799b1;z-index:2}.stage-heading i{display:block;height:1px;background:#37445a;margin-top:14px}.skill-node{position:absolute;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:3px;border:1px solid #354258;background:#172439;border-radius:11px;color:#e9eef6;text-align:left;padding:10px 12px;box-shadow:0 4px 19px #03091350;transition:border-color .15s,background .15s,box-shadow .15s;z-index:2}.skill-node:hover,.skill-node.selected{border-color:var(--skill-accent);box-shadow:0 0 0 2px #badc8630}.skill-node.done{border-color:#678c4e;background:#1a2e27}.skill-node.ready{border-color:#43849a;background:#172b3e}.node-top,.node-bottom{display:flex;justify-content:space-between;align-items:center;font-size:9px;font-weight:850;letter-spacing:.12em;color:#8292a8}.node-state{font-size:15px;color:#76879c;line-height:1}.skill-node.done .node-state,.skill-node.done .node-bottom{color:#b9e77f}.skill-node.ready .node-state,.skill-node.ready .node-bottom{color:#7bd5ea}.skill-node strong{font-size:12px;line-height:1.2;letter-spacing:-.018em;max-height:32px;overflow:hidden}.map-footnote{display:flex;justify-content:space-between;gap:10px;margin-top:12px;color:#8293a9;font-size:10px}.sub-hero{padding:45px 42px 39px;background:linear-gradient(115deg,#121e30,#0b1423);border-bottom:1px solid #253148}.sub-hero h1{margin-bottom:10px}.library-controls{margin:28px 36px 0;background:#131f33;border:1px solid #293751;border-radius:12px;padding:17px;display:flex;flex-direction:column;gap:14px}.search-box{display:flex;align-items:center;gap:10px;background:#0d1728;border:1px solid #35425a;border-radius:9px;padding:4px 12px}.search-box span{font-size:24px;color:#899db8}.search-box input{width:100%;border:0;outline:none;background:transparent;color:white;padding:11px 0;font-size:13px}.search-box input::placeholder{color:#8592a7}.filter-row{display:flex;gap:12px}.filter-row label{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px;font-size:10px;letter-spacing:.09em;font-weight:700;color:#91a2b8;text-transform:uppercase}.filter-row select{padding:10px 9px;min-width:0;width:100%;background:#0d1728;border:1px solid #35425a;border-radius:7px;color:#e9eff8;font-size:12px}.results-title{margin:30px 36px 18px;display:flex;justify-content:space-between;align-items:center;gap:15px}.results-title h2{font-size:22px;margin:0}.results-title>span{font-size:10px;color:#8fa0b5;letter-spacing:.1em}.library-grid{padding:0 36px 50px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}.library-card{background:#151f31;border:1px solid #2b3950;color:#f1f5fa;border-radius:12px;padding:16px;min-height:170px;display:flex;flex-direction:column;text-align:left;gap:12px;transition:background .15s,border-color .15s}.library-card:hover{background:#1b2a3f;border-color:var(--skill-accent)}.lib-top,.lib-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}.lib-id{font-weight:850;font-size:10px;letter-spacing:.1em;color:var(--skill-accent)}.lib-status{font-size:10px;color:#8795aa}.lib-status.ready{color:#7ad2ef}.lib-status.done{color:#b2e77b}.library-card strong{font-size:15px;line-height:1.3;min-height:40px}.lib-meta{font-size:10px;color:#a6b3c2}.lib-meta>span{margin:0 3px;color:#5d6b81}.lib-bottom{border-top:1px solid #2b3a50;margin-top:auto;padding-top:10px;font-size:10px;color:#8fa1b8}.lib-bottom span{font-size:18px;color:var(--skill-accent)}.empty-state{padding:30px;text-align:center;border:1px dashed #3a4860;color:#a0aec1;border-radius:10px;grid-column:1/-1}.progress-feature{margin:30px 36px 10px;border:1px solid #425b3e;border-radius:15px;background:linear-gradient(130deg,#20392c,#152837 70%);padding:34px;display:flex;justify-content:space-between;align-items:center}.giant-number{display:block;margin:12px 0;font-size:clamp(48px,7vw,84px);letter-spacing:-.02em;color:var(--lime)}.giant-suffix{font-size:24px;color:#9aac9c;letter-spacing:0;margin-left:9px}.progress-track{height:9px;max-width:390px;background:#31443e;border-radius:30px;overflow:hidden}.progress-track div{height:100%;width:0;background:var(--lime);transition:width .3s}.progress-feature p{font-size:12px;color:#b4c3b8}.progress-emblem{font-size:clamp(90px,15vw,190px);line-height:1;color:#bcef7f;opacity:.16}.discipline-stats{padding:0 36px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.discipline-stat{display:flex;flex-direction:column;align-items:stretch;gap:14px;text-align:left;padding:20px;border:1px solid #334259;border-radius:12px;background:#142034;color:white}.discipline-stat:hover{border-color:var(--skill-accent)}.stat-top{display:flex;justify-content:space-between;align-items:center}.stat-glyph{font-size:29px;color:var(--skill-accent)}.stat-count{font-size:25px;font-weight:800}.stat-count small{font-size:12px;font-weight:500;color:#8191a9}.discipline-stat strong{font-size:16px}.mini-track{height:6px;background:#344054;border-radius:9px;overflow:hidden}.mini-track div{height:100%;background:var(--skill-accent)}.stat-foot{display:flex;justify-content:space-between;font-size:11px;color:#a2b0c3}.stat-foot span{color:var(--skill-accent)}.next-skills{padding:0 36px;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:9px}.next-item{background:#142034;border:1px solid #304057;color:#eef4fa;display:flex;align-items:center;gap:14px;text-align:left;padding:15px;border-radius:10px}.next-item:hover{border-color:#7ad2ef}.next-icon{font-size:24px;width:28px;text-align:center}.next-item>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:5px}.next-item strong{font-size:12px}.next-item small{color:#93a5b9;font-size:10px}.next-arrow{font-size:20px;color:#96b9c9}.data-box{margin:30px 36px 50px;background:#111c2e;border:1px solid #344057;border-radius:12px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.data-box h3{margin:0;font-size:17px}.data-box p{font-size:12px;color:#a4b1c5;line-height:1.6;margin:7px 0 0;max-width:460px}.data-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-end}.action-btn{font-size:11px;font-weight:750;color:#121b24;border:1px solid var(--lime);background:var(--lime);border-radius:8px;padding:11px 13px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}.action-btn:hover{filter:brightness(1.07)}.secondary-btn{background:#1d2b41;border-color:#415272;color:#eff5fc;cursor:pointer}.danger-btn{background:transparent;border-color:#79565d;color:#e9a0a7}.app-footer{display:flex;justify-content:space-between;gap:10px;padding:19px 36px;color:#687b95;font-size:9px;font-weight:800;letter-spacing:.13em;border-top:1px solid #253149}.app-footer span{color:var(--lime)}.bottom-nav{display:none}.drawer-backdrop{position:fixed;inset:0;z-index:30;background:#030910a8;backdrop-filter:blur(2px)}.skill-drawer{position:fixed;z-index:31;right:0;top:0;bottom:0;width:min(430px,100vw);background:#111d2d;border-left:1px solid #35435a;box-shadow:-20px 0 90px #0008;transform:translateX(102%);transition:transform .23s ease;overflow-y:auto;overscroll-behavior:contain;padding:30px}.skill-drawer.open{transform:translateX(0)}.drawer-grab{display:none}.drawer-close{position:absolute;right:19px;top:20px;border:1px solid #46536c;background:#23334a;color:#dae4ee;border-radius:7px;width:33px;height:33px}.drawer-accent{margin-top:26px;display:flex;justify-content:space-between;font-size:10px;font-weight:850;color:var(--skill-accent);letter-spacing:.15em}.skill-drawer h2{font-size:34px;line-height:1.12;margin:15px 0}.detail-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}.detail-meta>span:first-child{font-size:10px;letter-spacing:.12em;color:#95a6bd}.detail-status{font-size:10px;color:#a7aebd;padding:6px 8px;background:#23334a;border-radius:6px}.detail-status.ready{color:#83d7ef}.detail-status.done{color:var(--lime)}.detail-copy{font-size:13px;line-height:1.7;color:#afbbce;margin:26px 0}.master-btn{width:100%;padding:16px;border-radius:9px;background:var(--lime);color:#10200d;font-weight:850;font-size:13px;border:0}.master-btn.is-done{background:#1f352c;color:#bbec87;border:1px solid #587a4c}.drawer-section{margin-top:34px}.drawer-section h3{display:flex;justify-content:space-between;border-bottom:1px solid #33435a;padding-bottom:12px;color:#a4b5cc;font-size:10px;font-weight:850;letter-spacing:.15em}.drawer-section h3 span{color:#8395af}.related-skill{display:flex;gap:11px;align-items:center;width:100%;border:0;border-bottom:1px solid #2b394e;background:transparent;color:#e6edf5;text-align:left;padding:11px 1px}.related-skill:hover{background:#1c2b41}.related-mark{border:1px solid #4b6178;border-radius:50%;font-size:14px;color:#99a9bf;width:27px;height:27px;display:grid;place-items:center;flex:none}.related-mark.complete{border-color:#84b662;color:#b7e77c}.related-skill>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:4px}.related-skill strong{font-size:12px}.related-skill small{font-size:10px;color:#8999af}.related-skill>span:last-child{color:#8da5b5}.drawer-empty{color:#899ab0;font-size:12px}.toast{position:fixed;left:50%;bottom:35px;transform:translate(-50%,20px);border:1px solid #567b48;border-radius:12px;background:#213528;color:#d9f8be;font-weight:700;font-size:12px;max-width:min(90vw,470px);padding:14px 18px;opacity:0;pointer-events:none;z-index:70;transition:transform .18s,opacity .18s;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1050px){.app-shell{grid-template-columns:205px minmax(0,1fr)}.sidebar{padding:22px 10px}.hero{padding:42px 30px}.map-section,.library-controls,.results-title,.progress-feature,.data-box{margin-left:22px;margin-right:22px}.map-section{padding:26px 22px 38px;margin:0}.library-grid,.discipline-stats,.next-skills{padding-left:22px;padding-right:22px}.topbar{padding:0 24px}}
+@media(max-width:760px){.app-shell{display:block}.sidebar{display:none}.topbar{height:61px;padding:0 17px;position:sticky;top:0;z-index:18;background:#0a1120ed;backdrop-filter:blur(14px)}.mobile-brand{display:flex;padding:0}.mobile-brand .brand-mark{font-size:27px}.mobile-brand strong{font-size:15px}.desktop-top-title{display:none}.saved-indicator{display:none}.level-tag{font-size:9px;padding:7px 9px}.hero{padding:34px 22px 28px}.hero h1,.sub-hero h1{font-size:clamp(36px,10vw,55px)}.hero p,.sub-hero p{font-size:13px}.hero-numbers{gap:30px;margin-top:29px}.hero-numbers strong{font-size:27px}.hero-numbers strong .dimmed{font-size:16px}.map-section{padding:25px 14px 39px;margin:0}.section-heading{padding:0 6px;align-items:start;flex-direction:column;gap:12px}.map-legend{gap:13px;font-size:10px}.branch-tabs{padding-top:16px;padding-bottom:12px;scrollbar-width:none}.branch-tabs::-webkit-scrollbar{display:none}.branch-tab{font-size:11px;padding:10px 12px}.map-toolbar{padding:10px}.map-context-icon{width:30px;height:30px;line-height:30px;font-size:19px}.map-context div span{font-size:9px}.map-context strong{font-size:12px}.toolbar-controls{gap:4px}.small-btn{width:29px;height:29px}.zoom-reading{font-size:10px}.fit-btn{width:29px;justify-content:center;padding:0}.fit-btn span{display:none}.map-scroll{height:59vh;min-height:390px}.map-footnote{font-size:9px;flex-direction:column;gap:5px}.sub-hero{padding:36px 22px 33px}.library-controls{margin:20px 14px 0;padding:12px}.filter-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.filter-row label:last-child{grid-column:span 2}.results-title{margin:27px 16px 17px}.results-title h2{font-size:20px}.library-grid{padding:0 14px 35px;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.library-card{min-height:176px;padding:12px;gap:10px}.library-card strong{font-size:13px;min-height:48px}.lib-meta{font-size:9px}.lib-status{font-size:9px}.lib-bottom{font-size:9px}.progress-feature{margin:20px 14px 8px;padding:22px}.progress-emblem{font-size:90px}.giant-number{font-size:62px}.discipline-stats{padding:0 14px;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.discipline-stat{padding:14px;gap:12px}.discipline-stat strong{font-size:13px}.stat-count{font-size:21px}.next-skills{padding:0 14px;grid-template-columns:1fr}.data-box{margin:22px 14px 100px;padding:20px;display:flex;flex-direction:column;align-items:stretch}.data-actions{justify-content:stretch}.data-actions>*{flex:1}.app-footer{display:none}.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(66px + env(safe-area-inset-bottom));padding:5px 6px calc(5px + env(safe-area-inset-bottom));background:#101a2bed;border-top:1px solid #344257;backdrop-filter:blur(14px);z-index:21;display:flex;justify-content:space-around}.bottom-nav button{flex:1;background:transparent;color:#8596aa;border:0;border-radius:9px;font-size:10px;font-weight:750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.bottom-nav button span{font-size:24px;line-height:1}.bottom-nav button.active{color:var(--lime)}.skill-drawer{width:100%;height:min(87dvh,780px);top:auto;bottom:0;right:0;border-radius:19px 19px 0 0;padding:22px 24px calc(29px + env(safe-area-inset-bottom));border-left:none;border-top:1px solid #3d5066;transform:translateY(103%)}.drawer-grab{display:block;background:#57667a;border-radius:99px;width:38px;height:4px;margin:-8px auto 10px}.drawer-accent{margin-top:20px}.skill-drawer h2{font-size:28px}.toast{bottom:calc(81px + env(safe-area-inset-bottom))}}
+@media(max-width:380px){.hero-numbers{gap:18px}.library-grid{grid-template-columns:1fr}.library-card{min-height:140px}.map-toolbar{gap:6px}.map-context div span{max-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+  </style>
+  <title>Freestyle 130 · Football Skill Tree</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="App navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span><div><strong>FREESTYLE<span class="brand-light">/130</span></strong><span class="brand-kicker">YOUR SKILL UNIVERSE</span></div></div>
+      <div class="side-section-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Screens">
+        <button class="nav-item active" data-screen="map"><span class="nav-symbol">⬡</span> Skill map</button>
+        <button class="nav-item" data-screen="library"><span class="nav-symbol">▦</span> Skill library</button>
+        <button class="nav-item" data-screen="progress"><span class="nav-symbol">◉</span> My progress</button>
+      </nav>
+      <div class="side-section-label spaced">DISCIPLINES</div>
+      <nav class="side-branches" id="sidebar-branches" aria-label="Skill disciplines"></nav>
+      <div class="sidebar-footer"><span class="small-football" aria-hidden="true">⚽</span><div><strong>Train your own way</strong><span>Every rep is progress.</span></div></div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark" aria-hidden="true">✳</span><strong>FREESTYLE<span class="brand-light">/130</span></strong></div>
+        <span class="desktop-top-title">THE FREESTYLE PLAYBOOK <span class="slash">/</span> SKILL ATLAS</span>
+        <div class="topbar-right"><span class="saved-indicator" id="saved-indicator">● Saved on this device</span><span class="level-tag" id="level-tag">LEVEL 1</span></div>
+      </header>
+      <main id="main-content">
+        <section class="screen active" id="screen-map" aria-labelledby="map-heading">
+          <div class="hero">
+            <div class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE PROGRESSION SYSTEM</div>
+            <h1 id="map-heading">Master the <em>impossible.</em></h1>
+            <p>130 challenges. Six skill branches. One path built by you. Tap a trick to see what it takes to unlock.</p>
+            <div class="hero-numbers">
+              <div><strong id="hero-done">0<span class="dimmed">/130</span></strong><span>MASTERED</span></div>
+              <div><strong id="hero-ready">0</strong><span>READY NOW</span></div>
+              <div><strong id="hero-percent">0%</strong><span>COMPLETE</span></div>
+            </div>
+          </div>
+          <div class="map-section">
+            <div class="section-heading"><div><div class="eyebrow mini">EXPLORE YOUR PATH</div><h2>Skill tree <span class="tiny-spark">✧</span></h2></div><div class="map-legend"><span><i class="legend-dot done"></i> Mastered</span><span><i class="legend-dot ready"></i> Ready</span><span><i class="legend-dot locked"></i> Locked</span></div></div>
+            <div class="branch-tabs" id="branch-tabs" aria-label="Choose skill branch"></div>
+            <div class="map-toolbar"><div class="map-context"><span class="map-context-icon" id="map-context-icon">↗</span><div><strong id="map-context-title">Lowers</strong><span id="map-context-subtitle">Aerial leg skills</span></div></div><div class="toolbar-controls"><button class="small-btn" id="zoom-out" aria-label="Zoom map out">−</button><span class="zoom-reading" id="zoom-reading">100%</span><button class="small-btn" id="zoom-in" aria-label="Zoom map in">+</button><button class="small-btn fit-btn" id="reset-map" aria-label="Reset map position">↺ <span>Reset</span></button></div></div>
+            <div class="map-scroll" id="map-scroll" tabindex="0" aria-label="Scroll horizontally and vertically to browse the skill tree"><div class="map-scale-holder" id="map-scale-holder"><div class="map-world" id="map-world"><svg id="map-edges" class="map-edges" aria-hidden="true"></svg><div id="map-nodes"></div></div></div></div>
+            <div class="map-footnote"><span>↔ Swipe or scroll to explore the entire map</span><span>Solid lines = prerequisites in this branch</span></div>
+          </div>
+        </section>
+
+        <section class="screen" id="screen-library" aria-labelledby="library-heading">
+          <div class="sub-hero"><div class="eyebrow"><span class="eyebrow-line"></span> EVERY MOVE. ONE PLACE.</div><h1 id="library-heading">Skill <em>library.</em></h1><p>Search, filter and track all 130 challenges. The requirements are suggestions, not hard restrictions.</p></div>
+          <div class="library-controls"><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="skill-search" placeholder="Find a trick or code (e.g. LATW)..." autocomplete="off" aria-label="Search skills" /></label><div class="filter-row"><label>Discipline <select id="library-category"></select></label><label>Difficulty <select id="library-level"><option value="all">All levels</option><option value="1">1 · Beginner</option><option value="2">2 · Novice</option><option value="3">3 · Intermediate</option><option value="4">4 · Advanced</option><option value="5">5 · Expert</option></select></label><label>Status <select id="library-status"><option value="all">All skills</option><option value="ready">Ready to learn</option><option value="locked">Locked</option><option value="done">Mastered</option></select></label></div></div>
+          <div class="results-title"><h2 id="results-title">All skills</h2><span id="results-count">130 results</span></div>
+          <div class="library-grid" id="library-grid"></div>
+        </section>
+
+        <section class="screen" id="screen-progress" aria-labelledby="progress-heading">
+          <div class="sub-hero"><div class="eyebrow"><span class="eyebrow-line"></span> BUILD YOUR LEGACY</div><h1 id="progress-heading">Your <em>progress.</em></h1><p>Every skill you mark as mastered stays saved on this device.</p></div>
+          <div class="progress-feature"><div><div class="eyebrow mini">TOTAL MASTERY</div><strong class="giant-number"><span id="big-progress">0</span><span class="giant-suffix"> / 130</span></strong><div class="progress-track"><div id="progress-track-fill"></div></div><p id="progress-summary">Your freestyle journey starts here.</p></div><div class="progress-emblem" aria-hidden="true">✳</div></div>
+          <div class="results-title"><h2>Discipline breakdown</h2><span>YOUR SIX PATHS</span></div><div class="discipline-stats" id="discipline-stats"></div>
+          <div class="results-title"><h2>What to practise next</h2><span>UNLOCKED CHALLENGES</span></div><div class="next-skills" id="next-skills"></div>
+          <div class="data-box"><div><h3>Your data stays yours</h3><p>Progress is stored in your browser, on this phone or computer. Export a backup to transfer it to another device or browser.</p></div><div class="data-actions"><button class="action-btn" id="export-progress">↓ Export progress</button><label for="import-file" class="action-btn secondary-btn">↑ Import progress</label><input type="file" accept="application/json,.json" id="import-file" hidden /><button class="action-btn danger-btn" id="clear-progress">Reset all skills</button></div></div>
+        </section>
+      </main>
+      <footer class="app-footer">BUILT FOR THE LOVE OF FOOTBALL <span>✳</span> TRAIN. CREATE. REPEAT.</footer>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="progress"><span>◉</span>Progress</button></nav>
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="skill-drawer" id="skill-drawer" aria-label="Skill details" role="dialog" aria-modal="true" aria-hidden="true"><div class="drawer-grab"></div><button id="drawer-close" class="drawer-close" aria-label="Close skill details">✕</button><div id="drawer-content"></div></aside>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>
+/* Skill tree catalogue. Format: ID | Trick / challenge | Difficulty 1-5 | Prerequisite IDs (comma-separated).
+   Freestyle naming varies by community; some entries are drills, directional variations or combinations.
+   These links are suggested learning paths, not formal certification requirements. */
+const SKILL_DATA = `
+C01|Alternating thigh juggles|1|
+C02|Right-foot kick-ups|1|C01
+C03|Left-foot kick-ups|1|C01
+C04|10 alternating foot juggles|1|C02,C03
+C05|30 consecutive juggles|1|C04
+C06|100 consecutive juggles|2|C05
+C07|Low-height controlled juggling|2|C05
+C08|20 weak-foot-only juggles|2|C03
+C09|Thigh-to-foot juggling patterns|2|C01,C04
+C10|200-touch juggling endurance|3|C06
+L01|Crossover|1|C04
+L02|Reverse Crossover|2|L01
+L03|X-over|2|L01
+L04|Toe Bounce|2|L01
+L05|Reverse Toe Bounce|2|L04
+L06|Inside Around the World (ATW)|2|C05
+L07|Outside Around the World (ATW)|2|C05
+L08|Inside Hop the World (HTW)|2|L06
+L09|Outside Hop the World (HTW)|2|L07
+L10|Half Around the World (HATW)|2|L06
+L11|Knee Around the World|3|L06,C09
+L12|Knee Hop the World|3|L08,C09
+L13|Crossover 360|3|L01
+L14|X-over 360|3|L03
+L15|Toe Bounce 360|3|L04
+L16|Touzani ATW (TATW)|3|L07,L01
+L17|Mitchy ATW (MATW)|3|L06,L01
+L18|Abbas ATW (AATW)|3|L02,L06
+L19|Ratinho ATW (RATW)|3|L07,L03
+L20|Alternative Touzani ATW (ATATW)|4|L09,L01
+L21|Alternative Mitchy ATW (AMATW)|4|L08,L01
+L22|Mirror ATW|3|L06,L07
+L23|Dore ATW (DATW)|3|L06,L07
+L24|Timo ATW|4|L16,L18
+L25|Knee Mitchy ATW (KMATW)|4|L11,L17
+L26|Knee Touzani ATW (KTATW)|4|L11,L16
+L27|Homie Touzani ATW (HTATW)|4|L16,L08
+L28|Homie Mitchy ATW (HMATW)|4|L17,L08
+L29|Homie Jay ATW (HJATW)|4|L07,L09
+L30|Inside Lemmens ATW (LATW)|4|L06
+L31|Outside Lemmens ATW (LATW)|4|L07
+L32|Magellan outside-inside|4|L06,L07
+L33|Magellan inside-outside|4|L06,L07
+L34|Alternative Lemmens ATW (ALATW)|5|L30,L08
+L35|Lemmens Touzani ATW (LTATW)|5|L31,L16
+L36|Lemmens Mitchy ATW (LMATW)|5|L30,L17
+L37|Palle Trick|5|L27,L01
+L38|Palle Around the World (PATW)|5|L30,L31
+L39|Palle Touzani ATW (PTATW)|5|L38,L16
+L40|Skóra ATW (SATW)|5|L20,L27
+U01|Head juggling|1|C01
+U02|Forehead Head Stall|2|U01
+U03|Left Side Head Stall|2|U02
+U04|Right Side Head Stall|2|U02
+U05|Neck Catch / Neck Stall|2|U01
+U06|Neck Flick|2|U05
+U07|Chest Catch / Chest Stall|2|U01
+U08|Left Shoulder Stall|3|U05,U07
+U09|Right Shoulder Stall|3|U05,U07
+U10|Head-to-Neck Transfer|3|U02,U05
+U11|Neck-to-Head Transfer|3|U02,U06
+U12|Chest-to-Head Transfer|3|U02,U07
+U13|Neck Roll|4|U05,U08,U09
+U14|Shoulder-to-Shoulder Roll|4|U08,U09
+U15|Around the Moon (ATM)|4|U05
+U16|Top-of-Head Stall|3|U02
+U17|Back-of-Head Stall|4|U05,U16
+U18|Nose Stall|4|U02
+U19|Lip Stall|5|U18
+U20|Carousel Upper Combo|5|U13,U14
+S01|Seated Right-Foot Juggling|1|C02
+S02|Seated Left-Foot Juggling|1|C03
+S03|Alternating Seated Juggles|2|S01,S02
+S04|Seated Thigh-to-Foot Switch|2|S03,C09
+S05|Sitdown Crossover|2|S03,L01
+S06|Sitdown Reverse Crossover|2|S05
+S07|Sitdown X-over|2|S05
+S08|Seated Inside ATW|3|S03,L06
+S09|Seated Outside ATW|3|S03,L07
+S10|Seated Half ATW|3|S08
+S11|Shin Stall|3|S03
+S12|Shin Juggling|3|S11
+S13|Shin Roll|4|S12
+S14|Sole Stall|3|S03
+S15|Sole Juggling|4|S14
+S16|Raised Sole Stall Swipe|4|S14
+S17|Bicycle Stall|4|S14
+S18|Inside Revolve|3|S05
+S19|Outside Revolve|3|S05
+S20|Advanced Bicycle/Sole Combination|5|S15,S17
+B01|Foot Stall|1|C02
+B02|Foot Stall Transfer|2|B01
+B03|Knee Catch|2|C01
+B04|Ankle Catch|2|B03
+B05|Crossed Ankle Catch|3|B04
+B06|Level Foot Clutch|2|B01
+B07|Front Foot Clutch|2|B06
+B08|Tail Foot Clutch|3|B06
+B09|Knee Clutch|2|B03
+B10|Chest Pinch|3|U07,B03
+B11|Clipper Stall|3|B01
+B12|Pancake|3|B01
+B13|Dragon Stall|4|B11
+B14|Vee Stall|4|B01,B11
+B15|Knee Stall|3|B03
+B16|Heel Stall|3|B01
+B17|Butterfly Stall|4|B11
+B18|Eclipse|5|B11,B16
+B19|Handstand Clutch|5|B07
+B20|Jordan Stall|5|B11
+T01|Ground-to-Foot Flick-up|1|B01
+T02|Sole-Roll Flick-up|2|T01
+T03|Heel-Lift Flick-up|2|T01
+T04|Slap Flick-up|3|B04,T01
+T05|ATW → Crossover Combination|3|L06,L01
+T06|ATW → ATW Combination|3|L06,L07
+T07|Crossover → HTW Combination|3|L01,L08
+T08|ATW → HTW → ATW Chain|4|L06,L08,T06
+T09|Three Consecutive ATWs|4|L06
+T10|TATW → ATW Combination|4|L16,L06
+T11|MATW → ATW Combination|4|L17,L06
+T12|Flick-up → Neck Stall|3|T01,U05
+T13|Neck Stall → Thigh Catch|3|U05,B03
+T14|Neck Flick → Sitdown|4|U06,S03
+T15|Foot Stall → Neck Catch|4|B01,U05
+T16|Sitdown → Standing Juggling|4|S03,C04
+T17|Sole Stall → Sitdown Crossover|4|S14,S05
+T18|Lower → Upper → Sitdown Routine|5|T12,T14,T16
+T19|Three-Element Advanced Lower Chain|5|L27,L30
+T20|60-Second Multi-Style Routine|5|T18,T19,U20,S20
+`.trim().split('\n').map(line=>{
+  const [id,name,level,prereqs] = line.split('|');
+  return {id,name,level:Number(level),prereqs:prereqs?prereqs.split(','):[],category:id[0]};
+});
+
+  </script>
+  <script>
+(() => {
+  'use strict';
+  const CATEGORIES = {
+    C: { name: 'Foundations', description: 'Ball control & juggling', glyph: '◈', tint: '#f9c573' },
+    L: { name: 'Lowers', description: 'Aerial leg tricks', glyph: '↗', tint: '#c2f66b' },
+    U: { name: 'Uppers', description: 'Head, shoulders & chest', glyph: '◎', tint: '#a6a4ff' },
+    S: { name: 'Sitdowns', description: 'Seated juggling & tricks', glyph: '⌁', tint: '#ffb981' },
+    B: { name: 'Stalls & blocks', description: 'Catch, balance & control', glyph: '⬡', tint: '#7de4d9' },
+    T: { name: 'Transitions', description: 'Flow & combinations', glyph: '⤨', tint: '#ffa9c2' }
+  };
+  const LEVEL_NAMES = ['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Expert'];
+  const STORAGE_KEY = 'freestyle-130-progress-v1';
+  const skillById = new Map(SKILL_DATA.map(s => [s.id, s]));
+  const allIds = new Set(SKILL_DATA.map(s => s.id));
+  let completed = loadProgress();
+  let category = 'L';
+  let screen = 'map';
+  let selectedId = null;
+  let zoom = 1;
+  let toastTimer = null;
+  let mapNodes = new Map();
+  const $ = id => document.getElementById(id);
+  const percent = (a, b) => b ? Math.round(a / b * 100) : 0;
+  const countDone = () => SKILL_DATA.filter(s => completed.has(s.id)).length;
+  const remaining = s => s.prereqs.filter(id => !completed.has(id));
+  const status = s => completed.has(s.id) ? 'done' : remaining(s).length ? 'locked' : 'ready';
+  const byCategory = cat => SKILL_DATA.filter(s => s.category === cat);
+  const dependencies = id => SKILL_DATA.filter(s => s.prereqs.includes(id));
+  const safeText = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const statusLabel = {done:'Mastered',ready:'Ready to learn',locked:'Prerequisites missing'};
+
+  function loadProgress() {
+    try {
+      const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      const ids = Array.isArray(value) ? value : value.completed;
+      return new Set(Array.isArray(ids) ? ids.filter(id => typeof id === 'string' && allIds.has(id)) : []);
+    } catch { return new Set(); }
+  }
+  function saveProgress() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({version:1,completed:[...completed],savedAt:new Date().toISOString()}));
+      $('saved-indicator').textContent = '● Saved on this device';
+    } catch { $('saved-indicator').textContent = '● Saving unavailable'; }
+  }
+  function showToast(message) {
+    const el = $('toast'); el.textContent = message; el.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  }
+  function toggleSkill(id, force) {
+    const skill = skillById.get(id);
+    if (!skill) return;
+    const previousReady = new Set(SKILL_DATA.filter(s => status(s) === 'ready').map(s => s.id));
+    const shouldComplete = force === undefined ? !completed.has(id) : Boolean(force);
+    if (shouldComplete) completed.add(id); else completed.delete(id);
+    saveProgress();
+    renderSummary();
+    renderMap(false);
+    renderLibrary();
+    renderProgress();
+    if (selectedId) renderDrawer(selectedId);
+    const newlyReady = SKILL_DATA.filter(s => status(s) === 'ready' && !previousReady.has(s.id));
+    showToast(shouldComplete ? `Mastered: ${skill.name}${newlyReady.length ? ` · ${newlyReady.length} new skill${newlyReady.length===1?'':'s'} ready` : ''}` : `Unmarked: ${skill.name}`);
+  }
+  function initNavigation() {
+    document.querySelectorAll('[data-screen]').forEach(button => button.addEventListener('click', () => navigate(button.dataset.screen)));
+    $('sidebar-branches').innerHTML = Object.entries(CATEGORIES).map(([id, c]) => `<button class="branch-side" data-category="${id}"><span class="side-glyph" style="--accent:${c.tint}">${c.glyph}</span><span>${c.name}</span><span class="side-counter" id="side-count-${id}"></span></button>`).join('');
+    $('branch-tabs').innerHTML = Object.entries(CATEGORIES).map(([id, c]) => `<button class="branch-tab" data-category="${id}"><span class="tab-glyph">${c.glyph}</span>${c.name}<span class="tab-count">${byCategory(id).length}</span></button>`).join('');
+    document.querySelectorAll('[data-category]').forEach(button => button.addEventListener('click', () => {category=button.dataset.category;navigate('map');renderMap(true); }));
+    $('library-category').innerHTML = `<option value="all">All disciplines</option>`+Object.entries(CATEGORIES).map(([id,c])=>`<option value="${id}">${c.name}</option>`).join('');
+    ['skill-search','library-category','library-level','library-status'].forEach(id => $(id).addEventListener(id==='skill-search'?'input':'change',renderLibrary));
+    $('zoom-out').addEventListener('click',()=>setZoom(zoom-.15));
+    $('zoom-in').addEventListener('click',()=>setZoom(zoom+.15));
+    $('reset-map').addEventListener('click',()=>{setZoom(1);$('map-scroll').scrollTo({top:0,left:0,behavior:'smooth'});});
+    $('drawer-close').addEventListener('click',closeDrawer);
+    $('drawer-backdrop').addEventListener('click',closeDrawer);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+    $('drawer-content').addEventListener('click',event=>{
+      const jump = event.target.closest('[data-jump]');
+      if(jump){openSkill(jump.dataset.jump);return;}
+      const master = event.target.closest('[data-master]');
+      if(master)toggleSkill(master.dataset.master);
+    });
+    $('library-grid').addEventListener('click',event=>{
+      const button=event.target.closest('[data-open]'); if(button)openSkill(button.dataset.open);
+    });
+    $('next-skills').addEventListener('click',event=>{
+      const button=event.target.closest('[data-open]');if(button)openSkill(button.dataset.open);
+    });
+    $('discipline-stats').addEventListener('click',event=>{
+      const button=event.target.closest('[data-category]');if(button){category=button.dataset.category;navigate('map');renderMap(true);}
+    });
+    $('export-progress').addEventListener('click',exportProgress);
+    $('import-file').addEventListener('change',importProgress);
+    $('clear-progress').addEventListener('click',()=>{
+      if(!completed.size){showToast('No skills marked yet.');return;}
+      if(window.confirm('Reset all marked skills? This cannot be undone unless you exported a backup.')){
+        completed.clear();saveProgress();renderAll();showToast('Progress reset.');
+      }
+    });
+  }
+  function navigate(to) {
+    if(!['map','library','progress'].includes(to))return;
+    screen=to;
+    document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===`screen-${to}`));
+    document.querySelectorAll('[data-screen]').forEach(el=>{
+      const active=el.dataset.screen===to;
+      el.classList.toggle('active',active);
+      if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');
+    });
+    closeDrawer();
+    if(to==='map')requestAnimationFrame(()=>{if(!$('map-world').children.length)renderMap(true);});
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  function renderSummary(){
+    const mastered=countDone(),ready=SKILL_DATA.filter(s=>status(s)==='ready').length;
+    $('hero-done').innerHTML = `${mastered}<span class="dimmed">/130</span>`;
+    $('hero-ready').textContent=ready;$('hero-percent').textContent=`${percent(mastered,130)}%`;
+    $('level-tag').textContent=`LEVEL ${Math.min(5,1+Math.floor(mastered/26))}`;
+    for(const [id] of Object.entries(CATEGORIES)){
+      const done=byCategory(id).filter(s=>completed.has(s.id)).length;
+      $(`side-count-${id}`).textContent=`${done}/${byCategory(id).length}`;
+    }
+  }
+  function setZoom(value){
+    zoom = Math.max(.7, Math.min(1.3, Math.round(value*100)/100));
+    const world=$('map-world'),holder=$('map-scale-holder');
+    world.style.transform=`scale(${zoom})`;
+    holder.style.width=`${Math.ceil(Number(world.dataset.width||0)*zoom)}px`;
+    holder.style.height=`${Math.ceil(Number(world.dataset.height||0)*zoom)}px`;
+    $('zoom-reading').textContent=`${Math.round(zoom*100)}%`;
+    $('zoom-in').disabled=zoom>=1.3;$('zoom-out').disabled=zoom<=.7;
+  }
+  function renderMap(resetScroll){
+    for(const tab of document.querySelectorAll('.branch-tab,.branch-side'))tab.classList.toggle('active',tab.dataset.category===category);
+    const c=CATEGORIES[category];
+    $('map-context-icon').textContent=c.glyph;$('map-context-icon').style.color=c.tint;
+    $('map-context-title').textContent=c.name;$('map-context-subtitle').textContent=c.description+` · ${byCategory(category).length} challenges`;
+    const arr=byCategory(category),levels=[1,2,3,4,5],nodes=new Map();
+    const leftPad=60, colWidth=242, cardWidth=204, topPad=108, rowHeight=104;
+    const stageCounts=levels.map(n=>arr.filter(s=>s.level===n).length);
+    const height=Math.max(...stageCounts)*rowHeight+topPad+54;
+    const width=levels.length*colWidth+leftPad+30;
+    let html='';
+    levels.forEach(lv=>{
+      const x=leftPad+(lv-1)*colWidth;
+      html+=`<div class="stage-heading" style="left:${x}px;top:22px"><span>0${lv} / ${LEVEL_NAMES[lv-1].toUpperCase()}</span><i></i></div>`;
+      arr.filter(s=>s.level===lv).forEach((s,i)=>{
+        const y=topPad+i*rowHeight;
+        nodes.set(s.id,{x,y,w:cardWidth,h:80});
+        const st=status(s),extra=selectedId===s.id?' selected':'';
+        html+=`<button class="skill-node ${st}${extra}" data-node="${s.id}" style="left:${x}px;top:${y}px;width:${cardWidth}px;--skill-accent:${c.tint}" aria-label="${safeText(s.name)}, ${statusLabel[st]}"><span class="node-top"><span class="node-id">${s.id}</span><span class="node-state">${st==='done'?'✓':st==='ready'?'↗':'⌁'}</span></span><strong>${safeText(s.name)}</strong><span class="node-bottom">${st==='done'?'MASTERED':st==='ready'?'READY TO LEARN':`${remaining(s).length} TO UNLOCK`}</span></button>`;
+      });
+    });
+    $('map-world').dataset.width=String(width);$('map-world').dataset.height=String(height);
+    $('map-world').style.width=`${width}px`;$('map-world').style.height=`${height}px`;
+    const edges=[];
+    for(const s of arr){
+      for(const prereq of s.prereqs){
+        if(!nodes.has(prereq))continue;
+        const from=nodes.get(prereq),to=nodes.get(s.id), isSame=from.x===to.x;
+        let d;
+        if(isSame){
+          const sx=from.x+from.w/2,sy=from.y+from.h;
+          const tx=to.x+to.w/2,ty=to.y;
+          d=`M ${sx} ${sy} C ${sx+48} ${sy+26}, ${tx+48} ${ty-26}, ${tx} ${ty}`;
+        }else{
+          const sx=from.x+from.w,sy=from.y+from.h/2;
+          const tx=to.x,ty=to.y+to.h/2;
+          const k=Math.max(30,(tx-sx)*.48);
+          d=`M ${sx} ${sy} C ${sx+k} ${sy}, ${tx-k} ${ty}, ${tx} ${ty}`;
+        }
+        const active=selectedId&&(s.id===selectedId||prereq===selectedId);
+        edges.push(`<path d="${d}" class="edge ${active?'edge-active':''}" data-from="${prereq}" data-to="${s.id}"/>`);
+      }
+    }
+    $('map-edges').setAttribute('width',String(width));$('map-edges').setAttribute('height',String(height));
+    $('map-edges').setAttribute('viewBox',`0 0 ${width} ${height}`);$('map-edges').innerHTML=edges.join('');
+    $('map-nodes').innerHTML=html;
+    mapNodes=nodes;
+    $('map-nodes').querySelectorAll('[data-node]').forEach(btn=>btn.addEventListener('click',()=>openSkill(btn.dataset.node)));
+    setZoom(zoom);
+    if(resetScroll)$('map-scroll').scrollTo({left:0,top:0,behavior:'instant'});
+  }
+  function renderLibrary(){
+    const query=$('skill-search').value.trim().toLowerCase(), cat=$('library-category').value, lv=$('library-level').value,st=$('library-status').value;
+    const arr=SKILL_DATA.filter(s=>(cat==='all'||s.category===cat)&&(lv==='all'||s.level===Number(lv))&&(st==='all'||status(s)===st)&&(!query||`${s.id} ${s.name} ${CATEGORIES[s.category].name}`.toLowerCase().includes(query)));
+    $('results-count').textContent=`${arr.length} result${arr.length===1?'':'s'}`;
+    $('results-title').textContent=query?`Results for “${query}”`:'Explore all tricks';
+    $('library-grid').innerHTML=arr.length?arr.map(s=>{
+      const stat=status(s),c=CATEGORIES[s.category];
+      return `<button class="library-card" data-open="${s.id}" style="--skill-accent:${c.tint}"><span class="lib-top"><span class="lib-id">${s.id}</span><span class="lib-status ${stat}">${stat==='done'?'✓ Mastered':stat==='ready'?'↗ Ready':'⌁ Locked'}</span></span><strong>${safeText(s.name)}</strong><span class="lib-meta">${c.glyph} ${c.name} <span>·</span> LVL ${s.level} ${LEVEL_NAMES[s.level-1]}</span><span class="lib-bottom">${stat==='locked'?`${remaining(s).length} prerequisites missing`:stat==='done'?'Skill completed':'Ready to practise'} <span>↗</span></span></button>`;
+    }).join(''):`<div class="empty-state">No skills match those filters. Try a different search.</div>`;
+  }
+  function renderProgress(){
+    const done=countDone();
+    $('big-progress').textContent=done;
+    $('progress-track-fill').style.width=`${percent(done,130)}%`;
+    $('progress-summary').textContent=done===0?'Your freestyle journey starts here.':`${percent(done,130)}% completed · ${130-done} challenges still ahead.`;
+    $('discipline-stats').innerHTML=Object.entries(CATEGORIES).map(([id,c])=>{
+      const arr=byCategory(id),n=arr.filter(s=>completed.has(s.id)).length;
+      return `<button class="discipline-stat" data-category="${id}" style="--skill-accent:${c.tint}"><span class="stat-top"><span class="stat-glyph">${c.glyph}</span><span class="stat-count">${n}<small> / ${arr.length}</small></span></span><strong>${c.name}</strong><div class="mini-track"><div style="width:${percent(n,arr.length)}%"></div></div><span class="stat-foot">${percent(n,arr.length)}% complete <span>↗</span></span></button>`;
+    }).join('');
+    const ready=SKILL_DATA.filter(s=>status(s)==='ready').sort((a,b)=>a.level-b.level||a.id.localeCompare(b.id)).slice(0,8);
+    $('next-skills').innerHTML=ready.length?ready.map(s=>`<button class="next-item" data-open="${s.id}"><span class="next-icon" style="color:${CATEGORIES[s.category].tint}">${CATEGORIES[s.category].glyph}</span><span><strong>${safeText(s.name)}</strong><small>${CATEGORIES[s.category].name} · Level ${s.level}</small></span><span class="next-arrow">↗</span></button>`).join(''):`<div class="empty-state">All challenges mastered! Incredible work.</div>`;
+  }
+  function renderDrawer(id){
+    const s=skillById.get(id);if(!s)return;
+    const c=CATEGORIES[s.category],st=status(s),downstream=dependencies(s.id),prereqs=s.prereqs.map(x=>skillById.get(x)).filter(Boolean);
+    $('drawer-content').innerHTML=`<div class="drawer-accent" style="--skill-accent:${c.tint}"><span>${c.glyph} ${c.name.toUpperCase()}</span><span>${s.id}</span></div>
+    <h2>${safeText(s.name)}</h2><div class="detail-meta"><span>LEVEL ${s.level} · ${LEVEL_NAMES[s.level-1].toUpperCase()}</span><span class="detail-status ${st}">${statusLabel[st]}</span></div>
+    <p class="detail-copy">${st==='done'?'You have marked this trick as mastered.':st==='ready'?'You have checked off the suggested prerequisites. This trick is ready for practice.':`Complete ${remaining(s).length} suggested prerequisite${remaining(s).length===1?'':'s'} to unlock this challenge.`} Your technique and consistency matter more than the level number.</p>
+    <button class="master-btn ${st==='done'?'is-done':''}" data-master="${s.id}">${st==='done'?'✓ Marked mastered — undo':`✓ Mark as mastered`}</button>
+    <div class="drawer-section"><h3>PREREQUISITES <span>${prereqs.length}</span></h3>${prereqs.length?prereqs.map(p=>`<button class="related-skill" data-jump="${p.id}"><span class="related-mark ${completed.has(p.id)?'complete':''}">${completed.has(p.id)?'✓':'○'}</span><span><strong>${safeText(p.name)}</strong><small>${p.id} · ${CATEGORIES[p.category].name}</small></span><span>↗</span></button>`).join(''):`<p class="drawer-empty">Starting skill — no prerequisites.</p>`}</div>
+    <div class="drawer-section"><h3>UNLOCKS NEXT <span>${downstream.length}</span></h3>${downstream.length?downstream.slice(0,14).map(p=>`<button class="related-skill" data-jump="${p.id}"><span class="related-mark ${completed.has(p.id)?'complete':''}">${completed.has(p.id)?'✓':'→'}</span><span><strong>${safeText(p.name)}</strong><small>${p.id} · LVL ${p.level}</small></span><span>↗</span></button>`).join(''):'<p class="drawer-empty">End of this progression branch.</p>'}</div>`;
+    $('drawer-content').scrollTop=0;
+  }
+  function openSkill(id){
+    if(!skillById.has(id))return;
+    selectedId=id;
+    renderDrawer(id);
+    $('skill-drawer').classList.add('open');$('skill-drawer').setAttribute('aria-hidden','false');
+    $('drawer-backdrop').hidden=false;document.body.classList.add('drawer-open');
+    if(screen==='map'){
+      // If a related skill is on another branch, switch branches to show its position.
+      const skill=skillById.get(id);
+      if(skill.category!==category){category=skill.category;renderMap(false);}
+      else highlightEdges();
+      const pos=mapNodes.get(id);
+      if(pos){
+        const scroll=$('map-scroll');
+        const x=(pos.x+pos.w/2)*zoom-scroll.clientWidth/2;
+        const y=(pos.y+pos.h/2)*zoom-scroll.clientHeight/2;
+        scroll.scrollTo({left:Math.max(0,x),top:Math.max(0,y),behavior:'smooth'});
+      }
+    }
+    $('drawer-close').focus({preventScroll:true});
+  }
+  function highlightEdges(){
+    $('map-nodes').querySelectorAll('[data-node]').forEach(el=>el.classList.toggle('selected',el.dataset.node===selectedId));
+    $('map-edges').querySelectorAll('.edge').forEach(el=>el.classList.toggle('edge-active',el.dataset.from===selectedId||el.dataset.to===selectedId));
+  }
+  function closeDrawer(){
+    if(!$('skill-drawer').classList.contains('open'))return;
+    $('skill-drawer').classList.remove('open');$('skill-drawer').setAttribute('aria-hidden','true');
+    $('drawer-backdrop').hidden=true;document.body.classList.remove('drawer-open');
+    selectedId=null;highlightEdges();
+  }
+  function exportProgress(){
+    const data={app:'Freestyle 130',version:1,exportedAt:new Date().toISOString(),completed:[...completed]};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='freestyle-130-progress.json';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    showToast('Progress exported as JSON backup.');
+  }
+  async function importProgress(event){
+    const file=event.target.files?.[0];if(!file)return;
+    try{
+      if(file.size>2_000_000)throw Error('File is too large.');
+      const data=JSON.parse(await file.text());
+      if(!Array.isArray(data.completed))throw Error('Invalid progress backup.');
+      const ids=data.completed.filter(x=>typeof x==='string'&&allIds.has(x));
+      if(!window.confirm(`Import ${ids.length} mastered skills? This will replace progress on this device.`))return;
+      completed=new Set(ids);saveProgress();renderAll();showToast(`Imported ${ids.length} mastered skills.`);
+    }catch(err){showToast(`Could not import: ${err.message}`);}
+    finally{event.target.value='';}
+  }
+  function renderAll(){renderSummary();renderMap(false);renderLibrary();renderProgress();}
+  function init(){
+    initNavigation();renderAll();
+    if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    }
+  }
+  init();
+})();
+
+  </script>
+</body>
+</html>
