@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a101e" />
+  <meta name="description" content="An interactive 130-challenge freestyle football progression tree. Track tricks, unlock skills and train offline." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Freestyle 130" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Freestyle 130 · Football Skill Tree</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="App navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span><div><strong>FREESTYLE<span class="brand-light">/130</span></strong><span class="brand-kicker">YOUR SKILL UNIVERSE</span></div></div>
+      <div class="side-section-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Screens">
+        <button class="nav-item active" data-screen="map"><span class="nav-symbol">⬡</span> Skill map</button>
+        <button class="nav-item" data-screen="library"><span class="nav-symbol">▦</span> Skill library</button>
+        <button class="nav-item" data-screen="progress"><span class="nav-symbol">◉</span> My progress</button>
+      </nav>
+      <div class="side-section-label spaced">DISCIPLINES</div>
+      <nav class="side-branches" id="sidebar-branches" aria-label="Skill disciplines"></nav>
+      <div class="sidebar-footer"><span class="small-football" aria-hidden="true">⚽</span><div><strong>Train your own way</strong><span>Every rep is progress.</span></div></div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark" aria-hidden="true">✳</span><strong>FREESTYLE<span class="brand-light">/130</span></strong></div>
+        <span class="desktop-top-title">THE FREESTYLE PLAYBOOK <span class="slash">/</span> SKILL ATLAS</span>
+        <div class="topbar-right"><span class="saved-indicator" id="saved-indicator">● Saved on this device</span><span class="level-tag" id="level-tag">LEVEL 1</span></div>
+      </header>
+      <main id="main-content">
+        <section class="screen active" id="screen-map" aria-labelledby="map-heading">
+          <div class="hero">
+            <div class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE PROGRESSION SYSTEM</div>
+            <h1 id="map-heading">Master the <em>impossible.</em></h1>
+            <p>130 challenges. Six skill branches. One path built by you. Tap a trick to see what it takes to unlock.</p>
+            <div class="hero-numbers">
+              <div><strong id="hero-done">0<span class="dimmed">/130</span></strong><span>MASTERED</span></div>
+              <div><strong id="hero-ready">0</strong><span>READY NOW</span></div>
+              <div><strong id="hero-percent">0%</strong><span>COMPLETE</span></div>
+            </div>
+          </div>
+          <div class="map-section">
+            <div class="section-heading"><div><div class="eyebrow mini">EXPLORE YOUR PATH</div><h2>Skill tree <span class="tiny-spark">✧</span></h2></div><div class="map-legend"><span><i class="legend-dot done"></i> Mastered</span><span><i class="legend-dot ready"></i> Ready</span><span><i class="legend-dot locked"></i> Locked</span></div></div>
+            <div class="branch-tabs" id="branch-tabs" aria-label="Choose skill branch"></div>
+            <div class="map-toolbar"><div class="map-context"><span class="map-context-icon" id="map-context-icon">↗</span><div><strong id="map-context-title">Lowers</strong><span id="map-context-subtitle">Aerial leg skills</span></div></div><div class="toolbar-controls"><button class="small-btn" id="zoom-out" aria-label="Zoom map out">−</button><span class="zoom-reading" id="zoom-reading">100%</span><button class="small-btn" id="zoom-in" aria-label="Zoom map in">+</button><button class="small-btn fit-btn" id="reset-map" aria-label="Reset map position">↺ <span>Reset</span></button></div></div>
+            <div class="map-scroll" id="map-scroll" tabindex="0" aria-label="Scroll horizontally and vertically to browse the skill tree"><div class="map-scale-holder" id="map-scale-holder"><div class="map-world" id="map-world"><svg id="map-edges" class="map-edges" aria-hidden="true"></svg><div id="map-nodes"></div></div></div></div>
+            <div class="map-footnote"><span>↔ Swipe or scroll to explore the entire map</span><span>Solid lines = prerequisites in this branch</span></div>
+          </div>
+        </section>
+
+        <section class="screen" id="screen-library" aria-labelledby="library-heading">
+          <div class="sub-hero"><div class="eyebrow"><span class="eyebrow-line"></span> EVERY MOVE. ONE PLACE.</div><h1 id="library-heading">Skill <em>library.</em></h1><p>Search, filter and track all 130 challenges. The requirements are suggestions, not hard restrictions.</p></div>
+          <div class="library-controls"><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="skill-search" placeholder="Find a trick or code (e.g. LATW)..." autocomplete="off" aria-label="Search skills" /></label><div class="filter-row"><label>Discipline <select id="library-category"></select></label><label>Difficulty <select id="library-level"><option value="all">All levels</option><option value="1">1 · Beginner</option><option value="2">2 · Novice</option><option value="3">3 · Intermediate</option><option value="4">4 · Advanced</option><option value="5">5 · Expert</option></select></label><label>Status <select id="library-status"><option value="all">All skills</option><option value="ready">Ready to learn</option><option value="locked">Locked</option><option value="done">Mastered</option></select></label></div></div>
+          <div class="results-title"><h2 id="results-title">All skills</h2><span id="results-count">130 results</span></div>
+          <div class="library-grid" id="library-grid"></div>
+        </section>
+
+        <section class="screen" id="screen-progress" aria-labelledby="progress-heading">
+          <div class="sub-hero"><div class="eyebrow"><span class="eyebrow-line"></span> BUILD YOUR LEGACY</div><h1 id="progress-heading">Your <em>progress.</em></h1><p>Every skill you mark as mastered stays saved on this device.</p></div>
+          <div class="progress-feature"><div><div class="eyebrow mini">TOTAL MASTERY</div><strong class="giant-number"><span id="big-progress">0</span><span class="giant-suffix"> / 130</span></strong><div class="progress-track"><div id="progress-track-fill"></div></div><p id="progress-summary">Your freestyle journey starts here.</p></div><div class="progress-emblem" aria-hidden="true">✳</div></div>
+          <div class="results-title"><h2>Discipline breakdown</h2><span>YOUR SIX PATHS</span></div><div class="discipline-stats" id="discipline-stats"></div>
+          <div class="results-title"><h2>What to practise next</h2><span>UNLOCKED CHALLENGES</span></div><div class="next-skills" id="next-skills"></div>
+          <div class="data-box"><div><h3>Your data stays yours</h3><p>Progress is stored in your browser, on this phone or computer. Export a backup to transfer it to another device or browser.</p></div><div class="data-actions"><button class="action-btn" id="export-progress">↓ Export progress</button><label for="import-file" class="action-btn secondary-btn">↑ Import progress</label><input type="file" accept="application/json,.json" id="import-file" hidden /><button class="action-btn danger-btn" id="clear-progress">Reset all skills</button></div></div>
+        </section>
+      </main>
+      <footer class="app-footer">BUILT FOR THE LOVE OF FOOTBALL <span>✳</span> TRAIN. CREATE. REPEAT.</footer>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Mobile navigation"><button data-screen="map" class="active"><span>⬡</span>Map</button><button data-screen="library"><span>▦</span>Skills</button><button data-screen="progress"><span>◉</span>Progress</button></nav>
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="skill-drawer" id="skill-drawer" aria-label="Skill details" role="dialog" aria-modal="true" aria-hidden="true"><div class="drawer-grab"></div><button id="drawer-close" class="drawer-close" aria-label="Close skill details">✕</button><div id="drawer-content"></div></aside>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="data.js"></script><script src="app.js"></script>
+</body>
+</html>
